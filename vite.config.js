@@ -6,6 +6,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { resolve } from 'path';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -35,6 +36,7 @@ export default defineConfig(({ command, mode }) => {
       AutoImport({
         resolvers: [ElementPlusResolver()],
         imports: ['vue', 'pinia', 'vue-router'],
+        dts: true
       }),
       Components({
         resolvers: [ElementPlusResolver()],
@@ -43,7 +45,43 @@ export default defineConfig(({ command, mode }) => {
         iconDirs: [resolve(process.cwd(), 'src/icons/common'), resolve(process.cwd(), 'src/icons/nav-bar')],
         symbolId: 'icon-[dir]-[name]',
       }),
+      //https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
+      viteMockServe({
+        supportTs: true,
+        mockPath: 'mock',
+        localEnabled: command === 'serve',
+        prodEnabled: loadEnv(mode, process.cwd()).OPEN_MOCK,
+        injectCode: `
+          import { setupProdMockServer } from './mockProdServer';
+          setupProdMockServer();
+        `,
+        logger: true
+      }),
     ],
+    build: {
+      target: 'es2015',
+      outDir: "./dist",
+      minify: 'terser',
+      brotliSize: false,
+      // 消除打包大小超过500kb警告
+      chunkSizeWarningLimit: 5000,
+      terserOptions: {
+        //detail to look https://terser.org/docs/api-reference#compress-options
+        compress: {
+          drop_console: false,
+          pure_funcs: ['console.log', 'console.info'],
+          drop_debugger: true
+        }
+      },
+      assetsDir: 'static/assets',
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+        }
+      }
+    },
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),

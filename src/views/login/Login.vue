@@ -1,29 +1,26 @@
 <template>
-  <div id="userLayout" :class="['user-layout-wrapper']">
+  <div class="user-layout-wrapper">
     <div class="container">
       <div class="loginbox">
         <div class="main">
           <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
+            ref="loginFormRef"
+            :model="loginFormModel"
             status-icon
-            :rules="rules"
-            label-width="120px"
-            class="demo-ruleForm"
+            :rules="loginFormRules"
+            label-width="80px"
+            class="form-wrap"
           >
-            <el-form-item label="Password" prop="pass">
-              <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="loginFormModel.username" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="Confirm" prop="checkPass">
-              <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+            <el-form-item label="密码" prop="password">
+              <el-input v-model="loginFormModel.password" type="password" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="Age" prop="age">
-              <el-input v-model.number="ruleForm.age" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm(ruleFormRef)">Submit</el-button>
-              <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-            </el-form-item>
+            <div class="btns-wrap">
+              <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
+              <el-button @click="resetForm(loginFormRef)">重置</el-button>
+            </div>
           </el-form>
         </div>
       </div>
@@ -42,11 +39,12 @@ const vueRouter = useRouter();
 // 获取store变量
 const vueStore = useUserStore();
 
-const loginFormRef = ref();
+const loginFormRef = ref()
+
 // 定义表单对象
 const loginFormModel = reactive({
-  username: 'admin',
-  password: 'admin123',
+  username: '',
+  password: '',
   code: '',
   uuid: '',
   codeUrl: '',
@@ -70,110 +68,78 @@ const getVerifyCode = () => {
 };
 
 // 提交表单方法
-// const submitForm = () => {
-//   loginFormModel.loginButtonDisabled = true;
-//   loginFormModel.loginButtonLoading = true;
-//   loginFormModel.loginButtonName = '登录中...';
-//   loginFormRef.value
-//     .validate()
-//     .then(() => {
-//       vueStore
-//         .dispatch('Login_Action', loginFormModel)
-//         .then(() => {
-//           // 登陆成功，跳转到主页
-//           vueRouter.push({ path: '/home' }).catch(() => {});
-//         })
-//         .catch(() => {
-//           loginFormModel.loginButtonDisabled = false;
-//           loginFormModel.loginButtonLoading = false;
-//           loginFormModel.loginButtonName = '登录';
-//         });
-//     })
-//     .catch((error) => {
-//       loginFormModel.loginButtonDisabled = false;
-//       loginFormModel.loginButtonLoading = false;
-//       loginFormModel.loginButtonName = '登录';
-//       console.log('error', error);
-//     });
-// };
+const submitForm = (formEl) => {
+  loginFormModel.loginButtonDisabled = true;
+  loginFormModel.loginButtonLoading = true;
+  loginFormModel.loginButtonName = '登录中...';
+  formEl.validate((valid) => {
+    if (valid) {
+      vueStore
+        .dispatch('Login_Action', loginFormModel)
+        .then(() => {
+          // 登陆成功，跳转到主页
+          vueRouter.push({ path: '/home' }).catch(() => {});
+        })
+        .catch(() => {
+          loginFormModel.loginButtonDisabled = false;
+          loginFormModel.loginButtonLoading = false;
+          loginFormModel.loginButtonName = '登录';
+        });
+    } else {
+      loginFormModel.loginButtonDisabled = false;
+      loginFormModel.loginButtonLoading = false;
+      loginFormModel.loginButtonName = '登录';
+    }
+  })
+};
 // // 重置表单方法
-// const resetForm = () => {
-//   loginFormRef.value.resetFields();
-// };
+const resetForm = (formEl) => {
+  if (!formEl) return
+  formEl.resetFields()
+};
 
 // 默认调用获取验证码方法
 // getVerifyCode();
 
-
-
-const ruleFormRef = ref({})
-
-const checkAge = (rule, value, callback) => {
-  if (!value) {
-    return callback(new Error('Please input the age'))
-  }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error('Please input digits'))
-    } else {
-      if (value < 18) {
-        callback(new Error('Age must be greater than 18'))
-      } else {
-        callback()
-      }
-    }
-  }, 1000)
-}
-
-const validatePass = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('Please input the password'))
-  } else {
-    if (ruleForm.checkPass !== '') {
-      if (!ruleFormRef.value) return
-      ruleFormRef.value.validateField('checkPass', () => null)
-    }
-    callback()
-  }
-}
-const validatePass2 = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('Please input the password again'))
-  } else if (value !== ruleForm.pass) {
-    callback(new Error("Two inputs don't match!"))
-  } else {
-    callback()
-  }
-}
-
-const ruleForm = reactive({
-  pass: '',
-  checkPass: '',
-  age: '',
-})
-
-const rules = reactive({
-  pass: [{ validator: validatePass, trigger: 'blur' }],
-  checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-  age: [{ validator: checkAge, trigger: 'blur' }],
-})
-
-const submitForm = (formEl) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
-}
-
-const resetForm = (formEl) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+  .user-layout-wrapper {
+  height: 100%;
+  .container {
+    width: 100%;
+    min-height: 100%;
+    background: #e2effc url('@/assets/image/login-bg.jpg') no-repeat center top;
+    background-size: 100%;
+    vertical-align: middle;
+    display: flex;
+
+    a {
+      text-decoration: none;
+    }
+    .loginbox {
+      width: 445px;
+      height: 500px;
+      margin: auto;
+      background: #ffffff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+    }
+    .main {
+      width: 445px;
+      height: 500px;
+      margin: 0 auto;
+      float: left;
+      display: block;
+      padding: 0 30px;
+      position: relative;
+      .form-wrap {
+        margin-top: 100px;
+      }
+      .btns-wrap {
+        
+      }
+    }
+  }
+}
+</style>
