@@ -34,7 +34,7 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        // resolvers: [ElementPlusResolver()],
         imports: ['vue', 'pinia', 'vue-router'],
         dts: true
       }),
@@ -87,5 +87,7 @@ export default defineConfig(({ command, mode }) => {
         '@': resolve(__dirname, './src'),
       },
     },
+    optimizeDeps: {
+    }
   });
 });
