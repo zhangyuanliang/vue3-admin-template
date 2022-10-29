@@ -1,28 +1,47 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
-export function loginReq(data) {
+// 登录方法
+export function login(data) {
   return request({
-    url: '/integration-front/user/loginValid',
-    data,
-    method: 'post',
-    bfLoading: false,
-    isParams: true,
-    isAlertErrorMsg: false
-  })
+    url: "/login",
+    method: "post",
+    data: data,
+  });
 }
 
-export function getInfoReq() {
+// 注册方法
+export function register(data) {
   return request({
-    url: '/integration-front/user/getUserInfo',
-    bfLoading: false,
-    method: 'post',
-    isAlertErrorMsg: false
-  })
+    url: "/register",
+    headers: {
+      isToken: false,
+    },
+    method: "post",
+    data: data,
+  });
 }
 
-export function logoutReq() {
+// 获取用户详细信息
+export function getInfo() {
   return request({
-    url: '/integration-front/user/loginOut',
-    method: 'post'
-  })
+    url: "/getInfo",
+    method: "get",
+  });
+}
+
+// 退出方法
+export function logout() {
+  return request({
+    url: "/logout",
+    method: "post",
+  });
+}
+
+// 获取验证码
+export function getVerifyCodeImg() {
+  return request({
+    url: "/captchaImage",
+    method: "get",
+    timeout: 20000,
+  });
 }

@@ -1,4 +1,4 @@
-import { loginReq, logoutReq, getInfoReq } from '@/api/user';
+import { login, logout, getInfo } from '@/api/user';
 import { setToken, removeToken } from '@/utils/auth';
 import router, { asyncRoutes } from '@/router';
 import { defineStore } from 'pinia';
@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', {
 
     login(data) {
       return new Promise((resolve, reject) => {
-        loginReq(data)
+        login(data)
           .then((res) => {
             if (res.code === 20000) {
               setToken(res.data?.token);
@@ -53,7 +53,7 @@ export const useUserStore = defineStore('user', {
     // get user info
     getInfo() {
       return new Promise((resolve, reject) => {
-        getInfoReq()
+        getInfo()
           .then((response) => {
             const { data } = response;
             if (!data) {
@@ -80,7 +80,7 @@ export const useUserStore = defineStore('user', {
     // user logout
     logout() {
       return new Promise((resolve, reject) => {
-        logoutReq()
+        logout()
           .then(() => {
             this.resetState();
             resolve(null);

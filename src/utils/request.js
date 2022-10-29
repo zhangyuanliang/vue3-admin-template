@@ -5,7 +5,7 @@ import { useUserStore } from '@/store/user';
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? process.env.BASE_API : null, // api的base_url
+  baseURL: import.meta.env.VITE_API_DOMAIN, // api的base_url
   timeout: 8000, // 请求超时时间
 });
 
