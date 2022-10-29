@@ -5,13 +5,26 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { resolve } from 'path';
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          title: 'vue3-admin-template'
+        }
+      }
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
+      imports: [
+        'vue',
+        'pinia',
+        'vue-router',
+      ],
     }),
     Components({
       resolvers: [ElementPlusResolver()],

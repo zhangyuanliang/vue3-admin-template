@@ -1,18 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Layout from '@/layout';
+// import Layout from '@/layout';
 
 export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect'),
-      },
-    ],
-  },
+  // {
+  //   path: '/redirect',
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: '/redirect/:path(.*)',
+  //       component: () => import('@/views/redirect'),
+  //     },
+  //   ],
+  // },
   {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
