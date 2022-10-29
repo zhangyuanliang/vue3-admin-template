@@ -14,17 +14,11 @@
             <el-input v-model="loginFormModel.username" autocomplete="off" />
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input
-              v-model="loginFormModel.password"
-              type="password"
-              autocomplete="off"
-            />
+            <el-input v-model="loginFormModel.password" type="password" autocomplete="off" />
           </el-form-item>
           <div class="flex">
             <div class="mx-auto">
-              <el-button type="primary" @click="submitForm(loginFormRef)"
-                >登录</el-button
-              >
+              <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
               <el-button @click="resetForm(loginFormRef)">重置</el-button>
             </div>
           </div>
@@ -35,74 +29,74 @@
 </template>
 
 <script setup>
-import { getVerifyCodeImg } from "@/api/user";
-import { ref, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "@/store/user";
+import { getVerifyCodeImg } from '@/api/user'
+import { ref, reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
 
 // 获取router变量
-const vueRouter = useRouter();
+const vueRouter = useRouter()
 // 获取store变量
-const vueStore = useUserStore();
+const vueStore = useUserStore()
 
-const loginFormRef = ref();
+const loginFormRef = ref()
 
 // 定义表单对象
 const loginFormModel = reactive({
-  username: "",
-  password: "",
-  code: "",
-  uuid: "",
-  codeUrl: "",
+  username: '',
+  password: '',
+  code: '',
+  uuid: '',
+  codeUrl: '',
   loginButtonDisabled: false,
   loginButtonLoading: false,
-  loginButtonName: "登录",
-});
+  loginButtonName: '登录'
+})
 // 定义表单校验规则
 const loginFormRules = reactive({
-  username: [{ required: true, message: "请输入用户名！", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码！", trigger: "blur" }],
-  code: [{ required: true, message: "请输入验证码！", trigger: "blur" }],
-});
+  username: [{ required: true, message: '请输入用户名！', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码！', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入验证码！', trigger: 'blur' }]
+})
 
 // 获取验证码
 const getVerifyCode = () => {
   getVerifyCodeImg().then((res) => {
-    loginFormModel.codeUrl = "data:image/gif;base64," + res.img;
-    loginFormModel.uuid = res.uuid;
-  });
-};
+    loginFormModel.codeUrl = 'data:image/gif;base64,' + res.img
+    loginFormModel.uuid = res.uuid
+  })
+}
 
 // 提交表单方法
 const submitForm = (formEl) => {
-  loginFormModel.loginButtonDisabled = true;
-  loginFormModel.loginButtonLoading = true;
-  loginFormModel.loginButtonName = "登录中...";
+  loginFormModel.loginButtonDisabled = true
+  loginFormModel.loginButtonLoading = true
+  loginFormModel.loginButtonName = '登录中...'
   formEl.validate((valid) => {
     if (valid) {
       vueStore
-        .dispatch("Login_Action", loginFormModel)
+        .dispatch('Login_Action', loginFormModel)
         .then(() => {
           // 登陆成功，跳转到主页
-          vueRouter.push({ path: "/home" }).catch(() => {});
+          vueRouter.push({ path: '/home' }).catch(() => {})
         })
         .catch(() => {
-          loginFormModel.loginButtonDisabled = false;
-          loginFormModel.loginButtonLoading = false;
-          loginFormModel.loginButtonName = "登录";
-        });
+          loginFormModel.loginButtonDisabled = false
+          loginFormModel.loginButtonLoading = false
+          loginFormModel.loginButtonName = '登录'
+        })
     } else {
-      loginFormModel.loginButtonDisabled = false;
-      loginFormModel.loginButtonLoading = false;
-      loginFormModel.loginButtonName = "登录";
+      loginFormModel.loginButtonDisabled = false
+      loginFormModel.loginButtonLoading = false
+      loginFormModel.loginButtonName = '登录'
     }
-  });
-};
+  })
+}
 // // 重置表单方法
 const resetForm = (formEl) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
+  if (!formEl) return
+  formEl.resetFields()
+}
 
 // 默认调用获取验证码方法
 // getVerifyCode();
@@ -113,7 +107,7 @@ const resetForm = (formEl) => {
   height: 100%;
   width: 100%;
   min-height: 100%;
-  background: #e2effc url("@/assets/image/login-bg.jpg") no-repeat center top;
+  background: #e2effc url('@/assets/image/login-bg.jpg') no-repeat center top;
   background-size: 100%;
   vertical-align: middle;
   display: flex;
