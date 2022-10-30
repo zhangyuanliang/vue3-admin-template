@@ -1,23 +1,16 @@
 <script setup>
 import { useAppStore } from "@/store/modules/app"
-import DeviceType from '@/constants/app'
 import { useSettingsStore } from "@/store/modules/settings"
 import { AppMain, NavigationBar, Settings, Sidebar, TagsView, RightPanel } from "./components"
-import useResize from "./hooks/useResize"
 
 const appStore = useAppStore()
 const settingsStore = useSettingsStore()
-
-/** Layout 布局响应式 */
-useResize()
 
 const classObj = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened,
     openSidebar: appStore.sidebar.opened,
     withoutAnimation: appStore.sidebar.withoutAnimation,
-    // mobile: appStore.device === DeviceType.Mobile
-    mobile: false
   }
 })
 const showSettings = computed(() => {
@@ -29,14 +22,10 @@ const showTagsView = computed(() => {
 const fixedHeader = computed(() => {
   return settingsStore.fixedHeader
 })
-const handleClickOutside = () => {
-  appStore.closeSidebar(false)
-}
 </script>
 
 <template>
   <div :class="classObj" class="app-wrapper">
-    <!-- <div v-if="classObj.mobile && classObj.openSidebar" class="drawer-bg" @click="handleClickOutside" /> -->
     <Sidebar class="sidebar-container" />
     <div :class="{ hasTagsView: showTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">

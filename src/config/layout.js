@@ -1,9 +1,9 @@
 const layoutSettings = {
-  showSettings: true,
-  showTagsView: true,
+  showSettings: false,
+  showTagsView: false,
   fixedHeader: true,
   showSidebarLogo: true,
-  showThemeSwitch: true,
+  showThemeSwitch: false,
   showScreenfull: true
 }
 

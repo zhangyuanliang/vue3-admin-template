@@ -36,6 +36,36 @@ export const constantRoutes = [
     ]
   },
   {
+    path: "/system",
+    component: Layout,
+    redirect: "/system/user",
+    name: "System",
+    meta: {
+      title: "系统管理",
+      svgIcon: "menu"
+    },
+    children: [
+      {
+        path: "user",
+        component: () => import("@/views/system/user/index.vue"),
+        name: "User",
+        meta: {
+          title: "用户管理",
+          svgIcon: ""
+        }
+      },
+      {
+        path: "log",
+        component: () => import("@/views/system/log/index.vue"),
+        name: "Log",
+        meta: {
+          title: "日志管理",
+          svgIcon: ""
+        }
+      },
+    ]
+  },
+  {
     path: "/link",
     component: Layout,
     children: [

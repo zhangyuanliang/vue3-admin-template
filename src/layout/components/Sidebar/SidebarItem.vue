@@ -48,8 +48,6 @@ const theOnlyOneChild = computed(() => {
       }
     }
   }
-  // If there is no children, return itself with path removed,
-  // because this.basePath already contains item's path information
   return { ...props.item, path: "" }
 })
 
@@ -68,7 +66,7 @@ const resolvePath = (routePath) => {
   <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel }">
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
       <SidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
-        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" style="display:flex">
+        <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
           <svg-icon v-if="theOnlyOneChild.meta.svgIcon" :name="theOnlyOneChild.meta.svgIcon" />
           <component v-else-if="theOnlyOneChild.meta.elIcon" :is="theOnlyOneChild.meta.elIcon" class="el-icon" />
           <template v-if="theOnlyOneChild.meta.title" #title>
@@ -102,6 +100,10 @@ const resolvePath = (routePath) => {
   min-width: 1em;
   margin-right: 12px;
   font-size: 18px;
+}
+
+svg {
+  display: inline-block;
 }
 
 .el-icon {
