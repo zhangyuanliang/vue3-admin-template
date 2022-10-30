@@ -8,14 +8,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="sidebar-logo-container" :class="{ collapse: props.collapse }">
+  <div class="sidebar-logo-container" :class="{ 'sidebar-collapse': props.collapse }">
     <transition name="sidebar-logo-fade">
       <div v-if="props.collapse" key="collapse">
         <img src="/vite.svg" class="sidebar-logo" />
       </div>
       <div v-else key="expand">
         <img src="/vite.svg" class="sidebar-logo-text" />
-        <span>Element vite3</span>
+        <span class="title">Element vite3</span>
       </div>
     </transition>
   </div>
@@ -47,11 +47,13 @@ img {
   .sidebar-logo-text {
     height: 60%;
     vertical-align: middle;
-    margin-right: 10px;
+  }
+  .title {
+    margin-left: 14px;
   }
 }
 
-.collapse {
+.sidebar-collapse {
   .sidebar-logo {
     width: 32px;
     height: 32px;
