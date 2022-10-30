@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
-import './styles/index.less'
+import router from '@//router'
+import store from '@/store'
+import './styles/index.scss'
 import './styles/tailwind.css'
 
 // import ElementPlus from 'element-plus'
@@ -15,7 +16,7 @@ import { createPinia } from 'pinia'
 
 createApp(App)
   .use(router)
-  .use(createPinia())
+  .use(store)
   // .use(ElementPlus)
   .component('SvgIcon', svgIcon)
   .mount('#app')

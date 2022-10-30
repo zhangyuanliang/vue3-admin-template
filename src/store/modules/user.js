@@ -2,7 +2,7 @@ import { login, logout, getInfo } from '@/api/user';
 import { setToken, removeToken } from '@/utils/auth';
 import router, { asyncRoutes } from '@/router';
 import { defineStore } from 'pinia';
-import { usePermissionStore } from '@/store/permission';
+import { usePermissionStore } from '@/store/modules/permission';
 
 const resetRouter = () => {
   const asyncRouterNameArr = asyncRoutes.map((mItem) => mItem.name);

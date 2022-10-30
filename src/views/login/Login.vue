@@ -7,7 +7,7 @@
           :model="loginFormModel"
           status-icon
           :rules="loginFormRules"
-          label-width="80px"
+          label-width="68px"
           class="form-wrap"
         >
           <el-form-item label="用户名" prop="username">
@@ -16,11 +16,9 @@
           <el-form-item label="密码" prop="password">
             <el-input v-model="loginFormModel.password" type="password" autocomplete="off" />
           </el-form-item>
-          <div class="flex">
-            <div class="mx-auto">
-              <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
-              <el-button @click="resetForm(loginFormRef)">重置</el-button>
-            </div>
+          <div class="flex justify-center mt-6">
+            <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
+            <el-button @click="resetForm(loginFormRef)">重置</el-button>
           </div>
         </el-form>
       </div>
@@ -32,7 +30,7 @@
 import { getVerifyCodeImg } from '@/api/user'
 import { ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/modules/user'
 
 // 获取router变量
 const vueRouter = useRouter()
@@ -99,10 +97,10 @@ const resetForm = (formEl) => {
 }
 
 // 默认调用获取验证码方法
-// getVerifyCode();
+getVerifyCode();
 </script>
 
-<style lang="less">
+<style lang="scss">
 .login-container {
   height: 100%;
   width: 100%;
