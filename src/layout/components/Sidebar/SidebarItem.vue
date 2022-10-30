@@ -1,13 +1,12 @@
-<script lang="ts" setup>
-import { type PropType, computed } from "vue"
-import { type RouteRecordRaw } from "vue-router"
+<script setup>
+import { computed } from "vue"
 import SidebarItemLink from "./SidebarItemLink.vue"
 import { isExternal } from "@/utils/validate"
 import path from "path-browserify"
 
 const props = defineProps({
   item: {
-    type: Object as PropType<RouteRecordRaw>,
+    type: Object,
     required: true
   },
   isCollapse: {
@@ -54,7 +53,7 @@ const theOnlyOneChild = computed(() => {
   return { ...props.item, path: "" }
 })
 
-const resolvePath = (routePath: string) => {
+const resolvePath = (routePath) => {
   if (isExternal(routePath)) {
     return routePath
   }

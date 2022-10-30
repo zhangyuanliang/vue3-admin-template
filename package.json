@@ -15,8 +15,10 @@
     "js-cookie": "^3.0.1",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
+    "path-browserify": "^1.0.1",
     "path-to-regexp": "^6.2.1",
     "pinia": "^2.0.23",
+    "screenfull": "^6.0.2",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6"
   },

@@ -72,10 +72,8 @@ const submitForm = (formEl) => {
   loginFormModel.loginButtonName = '登录中...'
   formEl.validate((valid) => {
     if (valid) {
-      // console.log(userStore.loginRequest(loginFormModel))
       userStore.loginRequest(loginFormModel)
         .then(() => {
-          // 登陆成功，跳转到主页
           vueRouter.push({ path: '/home' }).catch(() => {})
         })
         .catch(() => {
@@ -90,7 +88,6 @@ const submitForm = (formEl) => {
     }
   })
 }
-// // 重置表单方法
 const resetForm = (formEl) => {
   if (!formEl) return
   formEl.resetFields()
@@ -100,7 +97,7 @@ if (import.meta.env.DEV) {
   loginFormModel.username = 'admin'
   loginFormModel.password = '123456'
 }
-// 默认调用获取验证码方法
+
 getVerifyCode();
 </script>
 

@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// import Layout from '@/layout';
+const Layout = () => import("@/layout/index.vue")
 
 export const constantRoutes = [
   // {
@@ -14,18 +14,27 @@ export const constantRoutes = [
   //   ],
   // },
   {
-    path: '/',
-    redirect: '/login',
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
     hidden: true,
   },
   {
-    path: '/home',
-    component: () => import('@/views/home/index.vue'),
-  }
+    path: "/",
+    component: Layout,
+    redirect: "/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        component: () => import("@/views/dashboard/index.vue"),
+        name: "Dashboard",
+        meta: {
+          title: "首页",
+          svgIcon: "dashboard",
+          affix: true
+        }
+      }
+    ]
+  },
 ];
 
 export const asyncRoutes = []

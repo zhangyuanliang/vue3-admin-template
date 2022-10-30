@@ -1,10 +1,10 @@
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue"
 import { ElScrollbar } from "element-plus"
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue"
 
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
-const scrollbarContentRef = ref<HTMLDivElement>()
+const scrollbarRef = ref()
+const scrollbarContentRef = ref()
 
 /** 当前滚动条距离左边的距离 */
 let currentScrollLeft = 0
@@ -12,12 +12,12 @@ let currentScrollLeft = 0
 const translateDistance = 200
 
 /** 滚动时触发 */
-const scroll = ({ scrollLeft }: { scrollLeft: number }) => {
+const scroll = ({ scrollLeft }) => {
   currentScrollLeft = scrollLeft
 }
 
 /** 点击滚动 */
-const scrollTo = (direction: "left" | "right") => {
+const scrollTo = (direction) => {
   let scrollLeft = 0
   /** 可滚动内容的长度 */
   const scrollbarContentRefWidth = scrollbarContentRef.value!.clientWidth

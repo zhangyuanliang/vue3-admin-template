@@ -1,12 +1,12 @@
-<script lang="ts" setup>
+<script setup>
 import { ref, watch } from "vue"
-import { type RouteLocationMatched, useRoute, useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { compile } from "path-to-regexp"
 
 const route = useRoute()
 const router = useRouter()
 
-const breadcrumbs = ref<RouteLocationMatched[]>([])
+const breadcrumbs = ref([])
 
 const getBreadcrumb = () => {
   breadcrumbs.value = route.matched.filter((item) => {
@@ -14,16 +14,16 @@ const getBreadcrumb = () => {
   })
 }
 
-const pathCompile = (path: string) => {
+const pathCompile = (path) => {
   const { params } = route
   const toPath = compile(path)
   return toPath(params)
 }
 
-const handleLink = (item: RouteLocationMatched) => {
+const handleLink = (item) => {
   const { redirect, path } = item
   if (redirect) {
-    router.push(redirect as string)
+    router.push(redirect)
     return
   }
   router.push(pathCompile(path))

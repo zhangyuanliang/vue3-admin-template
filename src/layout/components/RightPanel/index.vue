@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue"
 import { Setting } from "@element-plus/icons-vue"
 

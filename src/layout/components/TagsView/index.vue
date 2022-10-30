@@ -1,7 +1,7 @@
-<script lang="ts" setup>
+<script setup>
 import { getCurrentInstance, onMounted, ref, watch } from "vue"
-import { type RouteRecordRaw, useRoute, useRouter } from "vue-router"
-import { type ITagView, useTagsViewStore } from "@/store/modules/tags-view"
+import { useRoute, useRouter } from "vue-router"
+import { useTagsViewStore } from "@/store/modules/tags-view"
 import { usePermissionStore } from "@/store/modules/permission"
 import ScrollPane from "./ScrollPane.vue"
 import path from "path-browserify"
@@ -16,19 +16,19 @@ const permissionStore = usePermissionStore()
 const visible = ref(false)
 const top = ref(0)
 const left = ref(0)
-const selectedTag = ref<ITagView>({})
-let affixTags: ITagView[] = []
+const selectedTag = ref({})
+let affixTags = []
 
-const isActive = (tag: ITagView) => {
+const isActive = (tag) => {
   return tag.path === route.path
 }
 
-const isAffix = (tag: ITagView) => {
+const isAffix = (tag) => {
   return tag.meta?.affix
 }
 
-const filterAffixTags = (routes: RouteRecordRaw[], basePath = "/") => {
-  let tags: ITagView[] = []
+const filterAffixTags = (routes, basePath = "/") => {
+  let tags = []
   routes.forEach((route) => {
     if (route.meta?.affix) {
       const tagPath = path.resolve(basePath, route.path)
@@ -65,11 +65,11 @@ const addTags = () => {
   }
 }
 
-const refreshSelectedTag = (view: ITagView) => {
+const refreshSelectedTag = (view) => {
   router.replace({ path: "/redirect" + view.path, query: view.query })
 }
 
-const closeSelectedTag = (view: ITagView) => {
+const closeSelectedTag = (view) => {
   tagsViewStore.delVisitedView(view)
   if (isActive(view)) {
     toLastView(tagsViewStore.visitedViews, view)
@@ -83,7 +83,7 @@ const closeOthersTags = () => {
   tagsViewStore.delOthersVisitedViews(selectedTag.value)
 }
 
-const closeAllTags = (view: ITagView) => {
+const closeAllTags = (view) => {
   tagsViewStore.delAllVisitedViews()
   if (affixTags.some((tag) => tag.path === route.path)) {
     return
@@ -91,7 +91,7 @@ const closeAllTags = (view: ITagView) => {
   toLastView(tagsViewStore.visitedViews, view)
 }
 
-const toLastView = (visitedViews: ITagView[], view: ITagView) => {
+const toLastView = (visitedViews, view) => {
   const latestView = visitedViews.slice(-1)[0]
   if (latestView !== undefined && latestView.fullPath !== undefined) {
     router.push(latestView.fullPath)
@@ -106,7 +106,7 @@ const toLastView = (visitedViews: ITagView[], view: ITagView) => {
   }
 }
 
-const openMenu = (tag: ITagView, e: MouseEvent) => {
+const openMenu = (tag, e) => {
   const menuMinWidth = 105
   // container margin left
   const offsetLeft = instance!.proxy!.$el.getBoundingClientRect().left
