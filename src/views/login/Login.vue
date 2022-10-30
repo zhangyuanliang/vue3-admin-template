@@ -74,7 +74,7 @@ const submitForm = (formEl) => {
     if (valid) {
       userStore.loginRequest(loginFormModel)
         .then(() => {
-          vueRouter.push({ path: '/home' }).catch(() => {})
+          vueRouter.push({ path: '/dashboard' }).catch(() => {})
         })
         .catch(() => {
           loginFormModel.loginButtonDisabled = false

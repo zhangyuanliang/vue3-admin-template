@@ -1,13 +1,14 @@
 import { reactive, ref } from "vue"
 import { defineStore } from "pinia"
 import { getSidebarStatus, setSidebarStatus } from "@/utils/localStorage"
+import DeviceType from '@/constants/app'
 
 export const useAppStore = defineStore("app", () => {
   const sidebar = reactive({
     opened: getSidebarStatus() !== "closed",
     withoutAnimation: false
   })
-  const device = ref()
+  const device = ref(DeviceType.Desktop)
 
   const toggleSidebar = (withoutAnimation) => {
     sidebar.opened = !sidebar.opened
