@@ -109,9 +109,9 @@ const toLastView = (visitedViews, view) => {
 const openMenu = (tag, e) => {
   const menuMinWidth = 105
   // container margin left
-  const offsetLeft = instance!.proxy!.$el.getBoundingClientRect().left
+  const offsetLeft = instance.proxy.$el.getBoundingClientRect().left
   // container width
-  const offsetWidth = instance!.proxy!.$el.offsetWidth
+  const offsetWidth = instance.proxy.$el.offsetWidth
   // left boundary
   const maxLeft = offsetWidth - menuMinWidth
   // 15: margin right

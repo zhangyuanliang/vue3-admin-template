@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 
 /** 格式化时间 */
-export const formatDateTime = (time: string | number | Date) => {
+export const formatDateTime = (time) => {
   if (!time) {
     return "N/A"
   }
@@ -10,7 +10,7 @@ export const formatDateTime = (time: string | number | Date) => {
 }
 
 /** 将全局 CSS 变量导入 JS 中使用 */
-export const getCssVariableValue = (cssVariableName: string) => {
+export const getCssVariableValue = (cssVariableName) => {
   let cssVariableValue = ""
   try {
     // 没有拿到值时，会返回空串

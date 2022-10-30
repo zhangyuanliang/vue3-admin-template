@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import { getActiveThemeName, setActiveThemeName } from "@/utils/cache/localStorage"
+import { getActiveThemeName, setActiveThemeName } from "@/utils/localStorage"
 
 /** 主题列表 */
 const themeList = [

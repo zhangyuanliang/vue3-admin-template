@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue"
 import { defineStore } from "pinia"
-import { getSidebarStatus, setSidebarStatus } from "@/utils/cache/localStorage"
+import { getSidebarStatus, setSidebarStatus } from "@/utils/localStorage"
 
 export const useAppStore = defineStore("app", () => {
   const sidebar = reactive({
