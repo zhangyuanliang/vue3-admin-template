@@ -29,7 +29,7 @@ service.interceptors.response.use(
      * code为非A00000是抛错
      */
     const res = response.data;
-    if (res.code !== 403) {
+    if (res.code !== 200) {
       ElMessage({
         message: res.msg,
         type: 'error',

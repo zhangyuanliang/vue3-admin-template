@@ -35,7 +35,7 @@ import { useUserStore } from '@/store/modules/user'
 // 获取router变量
 const vueRouter = useRouter()
 // 获取store变量
-const vueStore = useUserStore()
+const userStore = useUserStore()
 
 const loginFormRef = ref()
 
@@ -72,8 +72,8 @@ const submitForm = (formEl) => {
   loginFormModel.loginButtonName = '登录中...'
   formEl.validate((valid) => {
     if (valid) {
-      vueStore
-        .dispatch('Login_Action', loginFormModel)
+      // console.log(userStore.loginRequest(loginFormModel))
+      userStore.loginRequest(loginFormModel)
         .then(() => {
           // 登陆成功，跳转到主页
           vueRouter.push({ path: '/home' }).catch(() => {})
@@ -96,6 +96,10 @@ const resetForm = (formEl) => {
   formEl.resetFields()
 }
 
+if (import.meta.env.DEV) {
+  loginFormModel.username = 'admin'
+  loginFormModel.password = '123456'
+}
 // 默认调用获取验证码方法
 getVerifyCode();
 </script>
