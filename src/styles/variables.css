@@ -6,11 +6,11 @@
   /** Header 区域 = NavigationBar 组件 + TagsView 组件 */
   --v3-header-height: calc(var(--v3-navigationbar-height) + var(--v3-tagsview-height));
   /** NavigationBar 组件 */
-  --v3-navigationbar-height: 50px;
+  --v3-navigationbar-height: 40px;
   /** Sidebar 组件 */
   --v3-sidebar-width: 220px;
   --v3-sidebar-hide-width: 58px;
-  --v3-sidebar-menu-item-height: 60px;
+  --v3-sidebar-menu-item-height: 50px;
   --v3-sidebar-menu-tip-line-bg-color: var(--el-color-primary);
   --v3-sidebar-menu-bg-color: #001428;
   --v3-sidebar-menu-hover-bg-color: #ffffff10;
