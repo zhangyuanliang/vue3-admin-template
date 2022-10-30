@@ -4,6 +4,7 @@ import router from '@//router'
 import store from '@/store'
 import './styles/index.scss'
 import './styles/tailwind.css'
+import "@/router/permission"
 
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
