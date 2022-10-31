@@ -1,5 +1,5 @@
 <template>
-  <div>log</div>
+  <div class="app-container">log</div>
 </template>
 
 <script setup></script>

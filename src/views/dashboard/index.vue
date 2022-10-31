@@ -1,6 +1,6 @@
 <template>
-  <div>
-    home
+  <div class="app-container">
+    dashboard
   </div>
 </template>
 

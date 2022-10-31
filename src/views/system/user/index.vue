@@ -128,7 +128,7 @@ const handleRefresh = () => {
 
 <template>
   <div class="app-container">
-    <el-card v-loading="loading" shadow="never" class="search-wrapper">
+    <div shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item prop="username" label="用户名">
           <el-input v-model="searchData.username" placeholder="请输入用户名" />
@@ -141,8 +141,8 @@ const handleRefresh = () => {
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
-    <el-card v-loading="loading" shadow="never">
+    </div>
+    <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">新增用户</el-button>
@@ -194,9 +194,10 @@ const handleRefresh = () => {
           :currentPage="paginationData.currentPage"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
+          :small="true"
         />
       </div>
-    </el-card>
+    </div>
     <!-- 新增/修改 -->
     <el-dialog
       v-model="dialogVisible"
@@ -222,7 +223,7 @@ const handleRefresh = () => {
 
 <style lang="scss" scoped>
 .search-wrapper {
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   :deep(.el-card__body) {
     padding-bottom: 2px;
   }

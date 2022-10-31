@@ -44,10 +44,10 @@ const logout = () => {
       <ThemeSwitch v-if="showThemeSwitch" class="right-menu-item" />
       <!-- <Notify class="right-menu-item" /> -->
       <el-dropdown class="right-menu-item">
-        <el-avatar :icon="UserFilled" :size="34" />
+        <el-avatar :icon="UserFilled" :size="28" />
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item divided @click="logout">
+            <el-dropdown-item @click="logout">
               <span style="display: block">退出登录</span>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -62,6 +62,7 @@ const logout = () => {
   height: var(--v3-navigationbar-height);
   overflow: hidden;
   background: #fff;
+  border-bottom: 1px solid #e5e5e5;
   .hamburger {
     display: flex;
     align-items: center;
@@ -83,6 +84,13 @@ const logout = () => {
     .right-menu-item {
       padding: 0 10px;
       cursor: pointer;
+      height: 100%;
+      width:100%;
+      display: flex;
+      align-items: center;
+      &:hover {
+        background: #e5e5e5;
+      }
     }
   }
 }
