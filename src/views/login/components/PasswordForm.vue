@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginFormRef" :model="loginFormModel" status-icon :rules="loginFormRules" class="form-wrap">
+  <el-form ref="loginFormRef" :model="loginFormModel" :rules="loginFormRules" class="form-wrap">
     <el-form-item prop="username">
       <el-input
         v-model="loginFormModel.username"
@@ -15,6 +15,7 @@
         :prefix-icon="Lock"
         placeholder="请输入密码"
         clearable
+        show-password
       />
     </el-form-item>
     <div class="flex justify-center mt-6">
@@ -26,6 +27,9 @@
       >
         {{ loginFormModel.loginButtonName }}
       </el-button>
+    </div>
+    <div class="flex justify-end">
+      <span class="text-gray-500 text-sm mt-2">找回密码</span>
     </div>
   </el-form>
 </template>
