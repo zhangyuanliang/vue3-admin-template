@@ -3,7 +3,7 @@
     <div class="loginbox">
       <div class="main">
         <div class="login-title">系统登录</div>
-        <el-tabs v-model="activeTab" class="mt-3" @tab-click="handleClick">
+        <el-tabs v-model="activeTab" class="mt-3">
           <el-tab-pane label="密码登录" name="password"></el-tab-pane>
           <el-tab-pane label="免密登录" name="sms"></el-tab-pane>
         </el-tabs>
@@ -20,7 +20,6 @@
 import { ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
-import { User, Lock } from '@element-plus/icons-vue'
 import PasswordForm from './components/PasswordForm.vue'
 import SMSForm from './components/SMSForm.vue'
 
@@ -68,6 +67,7 @@ const activeTab = ref('sms')
     display: block;
     padding: 0 30px;
     position: relative;
+    overflow: hidden;
     .form-wrap {
       margin-top: 20px;
     }

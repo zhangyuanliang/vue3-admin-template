@@ -1,6 +1,6 @@
 // tailwind.config.js
 module.exports = {
-  mode: 'jit',
+  // mode: 'jit',
   content: [
     './public/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',

@@ -1,13 +1,13 @@
-import { defineConfig, loadEnv } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-import { resolve } from 'path';
-import { createHtmlPlugin } from 'vite-plugin-html';
+import { defineConfig, loadEnv } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { resolve } from 'path'
+import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
-import svgLoader from "vite-svg-loader"
+import svgLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -15,24 +15,25 @@ export default defineConfig(({ command, mode }) => {
     base: loadEnv(mode, process.cwd()).VITE_PUBLIC_PATH,
     server: {
       host: '0.0.0.0',
+      hmr: true,
       port: parseInt(loadEnv(mode, process.cwd()).VITE_PORT),
       open: true,
       proxy: {
         '/dev_api/': {
           target: 'http://10.68.130.83:8080',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dev_api/, ''),
-        },
-      },
+          rewrite: (path) => path.replace(/^\/dev_api/, '')
+        }
+      }
     },
     plugins: [
       vue(),
       createHtmlPlugin({
         inject: {
           data: {
-            title: 'vue3-admin-template',
-          },
-        },
+            title: 'vue3-admin-template'
+          }
+        }
       }),
       AutoImport({
         // resolvers: [ElementPlusResolver()],
@@ -40,12 +41,12 @@ export default defineConfig(({ command, mode }) => {
         dts: true
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [ElementPlusResolver()]
       }),
       svgLoader(),
       createSvgIconsPlugin({
         iconDirs: [resolve(process.cwd(), 'src/icons/svg')],
-        symbolId: 'icon-[dir]-[name]',
+        symbolId: 'icon-[dir]-[name]'
       }),
       //https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
       viteMockServe({
@@ -58,11 +59,11 @@ export default defineConfig(({ command, mode }) => {
           setupProdMockServer();
         `,
         logger: true
-      }),
+      })
     ],
     build: {
       target: 'es2015',
-      outDir: "./dist",
+      outDir: './dist',
       minify: 'terser',
       brotliSize: false,
       // 消除打包大小超过500kb警告
@@ -87,10 +88,9 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         '~/': `${resolve(__dirname, 'src')}/`,
-        '@': resolve(__dirname, './src'),
-      },
+        '@': resolve(__dirname, './src')
+      }
     },
-    optimizeDeps: {
-    }
-  });
-});
+    optimizeDeps: {}
+  })
+})

@@ -3,14 +3,17 @@
     <el-form-item prop="username">
       <el-input v-model="loginFormModel.username" :prefix-icon="User" placeholder="请输入手机号" clearable />
     </el-form-item>
-    <el-form-item prop="password">
-      <el-input
-        v-model="loginFormModel.password"
-        type="password"
-        :prefix-icon="Lock"
-        placeholder="请输入短信验证码"
-        clearable
-      />
+    <el-form-item prop="code">
+      <div class="flex flex-grow items-center">
+        <el-input
+          v-model="loginFormModel.code"
+          type="code"
+          :prefix-icon="Lock"
+          placeholder="请输入短信验证码"
+          clearable
+        />
+        <div class="w-28 h-8 bg-indigo-500 rounded-lg text-white text-center ml-2 leading-8">获取验证码</div>
+      </div>
     </el-form-item>
     <div class="flex justify-center mt-6">
       <el-button
@@ -29,6 +32,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { getVerifyCodeImg } from '@/api/user'
+import { User, Lock } from '@element-plus/icons-vue'
 
 // 获取router变量
 const vueRouter = useRouter()
@@ -40,7 +44,7 @@ const loginFormRef = ref()
 // 定义表单对象
 const loginFormModel = reactive({
   username: '',
-  password: '',
+  code: '',
   code: '',
   uuid: '',
   codeUrl: '',
@@ -51,7 +55,7 @@ const loginFormModel = reactive({
 // 定义表单校验规则
 const loginFormRules = reactive({
   username: [{ required: true, message: '请输入手机号！', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入短信！', trigger: 'blur' }]
+  code: [{ required: true, message: '请输入短信验证码！', trigger: 'blur' }]
 })
 
 // 提交表单方法

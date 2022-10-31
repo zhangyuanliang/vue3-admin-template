@@ -33,6 +33,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
+import { User, Lock } from '@element-plus/icons-vue'
 
 // 获取router变量
 const vueRouter = useRouter()
