@@ -3,11 +3,11 @@
     <div
       v-if="!sendData.isSendedMessage"
       @click="sendMessage"
-      class="w-32 h-8 bg-indigo-400 cursor-pointer rounded-lg text-white text-center ml-2 leading-8"
+      class="w-24 h-8 bg-indigo-400 cursor-pointer rounded-lg text-white text-center ml-2 leading-8"
     >
       发送验证码
     </div>
-    <div v-else class="w-32 h-8 bg-gray-400 cursor-not-allowed rounded-lg text-white text-center ml-2 leading-8">
+    <div v-else class="w-24 h-8 bg-gray-400 cursor-not-allowed rounded-lg text-white text-center ml-2 leading-8">
       已发送 {{ sendData.count }} 秒
     </div>
   </div>
@@ -26,8 +26,7 @@ const sendMessage = () => {
   sendData.isSendedMessage = true
   disCount(60)
   getVerifyCodeImg().then((res) => {
-    loginFormModel.codeUrl = 'data:image/gif;base64,' + res.img
-    loginFormModel.uuid = res.uuid
+
   })
 }
 const disCount = (val) => {
@@ -37,6 +36,14 @@ const disCount = (val) => {
     console.log(sendData.count)
   }, 1000)
 }
+
+watch(() => sendData.count, (newValue, oldValue) => {
+  if(newValue <= 0) {
+    sendData.isSendedMessage = false
+    clearInterval(sendData.interval)
+    sendData.count = 60
+  }
+})
 
 onBeforeUnmount(() => {
   clearInterval(sendData.interval)
