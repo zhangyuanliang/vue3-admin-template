@@ -2,17 +2,17 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const Layout = () => import("@/layout/index.vue")
 
 export const constantRoutes = [
-  // {
-  //   path: '/redirect',
-  //   component: Layout,
-  //   hidden: true,
-  //   children: [
-  //     {
-  //       path: '/redirect/:path(.*)',
-  //       component: () => import('@/views/redirect'),
-  //     },
-  //   ],
-  // },
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect'),
+      },
+    ],
+  },
   {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
@@ -63,21 +63,6 @@ export const constantRoutes = [
           svgIcon: ""
         }
       },
-    ]
-  },
-  {
-    path: "/link",
-    component: Layout,
-    children: [
-      {
-        path: "https://juejin.cn/post/7089377403717287972",
-        component: () => {},
-        name: "Link",
-        meta: {
-          title: "外链",
-          svgIcon: "link"
-        }
-      }
     ]
   },
 ];

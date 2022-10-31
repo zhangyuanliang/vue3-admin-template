@@ -1,7 +1,9 @@
 // 全局 CSS 变量
 @import "./variables.css";
-@import './element/index.scss';
+// element样式覆盖
 @import './element-ui.scss';
+// Transition
+@import "./transition.scss";
 
 body {
   height: 100%;
@@ -20,6 +22,7 @@ html {
   height: 100%;
 }
 
+// tailwindcss有基础样式重写
 // label {
 //   font-weight: 700;
 // }

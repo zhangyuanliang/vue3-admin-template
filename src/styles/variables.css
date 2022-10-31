@@ -1,5 +1,11 @@
 :root {
-  /** 全局背景色 */
+  /** 全局 */
+  --el-color-primary: #5473e8;
+  --el-color-primary-light-3: #5473e8;
+  --el-color-primary-light-5: #6a84e2;
+  --el-color-primary-light-7: #839aed;
+  --el-color-primary-light-8: #99b6f2;
+  --el-color-primary-light-9: #ecf5ff;
   --v3-body-bg-color: #f2f3f5;
   /** Header */
   --v3-header-height: calc(var(--v3-navigationbar-height) + var(--v3-tagsview-height));

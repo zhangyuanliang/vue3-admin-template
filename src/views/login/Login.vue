@@ -2,106 +2,38 @@
   <div class="login-container">
     <div class="loginbox">
       <div class="main">
-        <el-form
-          ref="loginFormRef"
-          :model="loginFormModel"
-          status-icon
-          :rules="loginFormRules"
-          label-width="68px"
-          class="form-wrap"
-        >
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="loginFormModel.username" autocomplete="off" />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="loginFormModel.password" type="password" autocomplete="off" />
-          </el-form-item>
-          <div class="flex justify-center mt-6">
-            <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
-            <el-button @click="resetForm(loginFormRef)">重置</el-button>
-          </div>
-        </el-form>
+        <div class="login-title">系统登录</div>
+        <el-tabs v-model="activeTab" class="mt-3" @tab-click="handleClick">
+          <el-tab-pane label="密码登录" name="password"></el-tab-pane>
+          <el-tab-pane label="免密登录" name="sms"></el-tab-pane>
+        </el-tabs>
+        <transition name="fade" mode="out-in">
+          <PasswordForm v-if="activeTab === 'password'"/>
+          <SMSForm v-else/>
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { getVerifyCodeImg } from '@/api/user'
 import { ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
+import { User, Lock } from '@element-plus/icons-vue'
+import PasswordForm from './components/PasswordForm.vue'
+import SMSForm from './components/SMSForm.vue'
 
 // 获取router变量
 const vueRouter = useRouter()
 // 获取store变量
 const userStore = useUserStore()
 
-const loginFormRef = ref()
+const activeTab = ref('sms')
 
-// 定义表单对象
-const loginFormModel = reactive({
-  username: '',
-  password: '',
-  code: '',
-  uuid: '',
-  codeUrl: '',
-  loginButtonDisabled: false,
-  loginButtonLoading: false,
-  loginButtonName: '登录'
-})
-// 定义表单校验规则
-const loginFormRules = reactive({
-  username: [{ required: true, message: '请输入用户名！', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码！', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入验证码！', trigger: 'blur' }]
-})
-
-// 获取验证码
-const getVerifyCode = () => {
-  getVerifyCodeImg().then((res) => {
-    loginFormModel.codeUrl = 'data:image/gif;base64,' + res.img
-    loginFormModel.uuid = res.uuid
-  })
-}
-
-// 提交表单方法
-const submitForm = (formEl) => {
-  loginFormModel.loginButtonDisabled = true
-  loginFormModel.loginButtonLoading = true
-  loginFormModel.loginButtonName = '登录中...'
-  formEl.validate((valid) => {
-    if (valid) {
-      userStore.loginRequest(loginFormModel)
-        .then(() => {
-          vueRouter.push({ path: '/dashboard' }).catch(() => {})
-        })
-        .catch(() => {
-          loginFormModel.loginButtonDisabled = false
-          loginFormModel.loginButtonLoading = false
-          loginFormModel.loginButtonName = '登录'
-        })
-    } else {
-      loginFormModel.loginButtonDisabled = false
-      loginFormModel.loginButtonLoading = false
-      loginFormModel.loginButtonName = '登录'
-    }
-  })
-}
-const resetForm = (formEl) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
-
-if (import.meta.env.DEV) {
-  loginFormModel.username = 'admin'
-  loginFormModel.password = '123456'
-}
-
-getVerifyCode();
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login-container {
   height: 100%;
   width: 100%;
@@ -110,9 +42,15 @@ getVerifyCode();
   background-size: 100%;
   vertical-align: middle;
   display: flex;
-
-  a {
-    text-decoration: none;
+  .login-title {
+    margin-top: 40px;
+    color: #000000d9;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .loginbox {
     width: 445px;
@@ -131,10 +69,28 @@ getVerifyCode();
     padding: 0 30px;
     position: relative;
     .form-wrap {
-      margin-top: 100px;
+      margin-top: 20px;
     }
     .btns-wrap {
     }
+  }
+  :deep(.el-button) {
+    font-size: 16px;
+    height: 40px;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  :deep(.el-input) {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+  }
+  :deep(.el-input__prefix .el-input__icon) {
+    color: var(--el-color-primary);
+  }
+  :deep(.el-tabs__nav-wrap::after) {
+    height: 1px;
   }
 }
 </style>
