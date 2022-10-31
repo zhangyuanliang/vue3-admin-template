@@ -1,35 +1,70 @@
 <template>
   <div class="login-container">
     <div class="loginbox">
-      <div class="main">
-        <div class="login-title">系统登录</div>
-        <el-tabs v-model="activeTab" class="mt-3">
-          <el-tab-pane label="密码登录" name="password"></el-tab-pane>
-          <el-tab-pane label="免密登录" name="sms"></el-tab-pane>
-        </el-tabs>
-        <transition name="fade" mode="out-in">
-          <PasswordForm v-if="activeTab === 'password'"/>
-          <SMSForm v-else/>
-        </transition>
-      </div>
+      <transition name="fade" mode="out-in">
+        <div v-if="!pageData.isForgetPwd" class="main">
+          <div class="login-title">系统登录</div>
+          <el-tabs v-model="pageData.loginActiveTab" class="mt-3">
+            <el-tab-pane label="密码登录" name="password"></el-tab-pane>
+            <el-tab-pane label="免密登录" name="sms"></el-tab-pane>
+          </el-tabs>
+          <transition name="fade" mode="out-in">
+            <PasswordForm v-if="pageData.loginActiveTab === 'password'">
+              <div class="flex justify-end">
+                <span @click="forgotPwd" class="text-gray-500 text-sm mt-2 cursor-pointer hover:text-blue-500">
+                  找回密码
+                </span>
+              </div>
+            </PasswordForm>
+            <SMSForm v-else />
+          </transition>
+          <div class="text-sm text-red-400 text-center mt-10">推荐使用谷歌浏览器，360浏览器。</div>
+        </div>
+        <div v-else class="main">
+          <div class="login-title">找回密码</div>
+          <el-tabs v-model="pageData.forgetActiveTab" class="mt-3">
+            <el-tab-pane label="手机" name="phone"></el-tab-pane>
+            <el-tab-pane label="邮箱" name="email"></el-tab-pane>
+          </el-tabs>
+          <transition name="fade" mode="out-in">
+            <PhoneForm v-if="pageData.forgetActiveTab === 'phone'" />
+            <EmailForm v-else />
+          </transition>
+          <div class="flex justify-end">
+            <span @click="backLogin" class="text-gray-500 text-sm mt-2 cursor-pointer hover:text-blue-500">
+              返回登录
+            </span>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import PasswordForm from './components/PasswordForm.vue'
 import SMSForm from './components/SMSForm.vue'
+import PhoneForm from './components/PhoneForm.vue'
+import EmailForm from './components/EmailForm.vue'
 
 // 获取router变量
 const vueRouter = useRouter()
 // 获取store变量
 const userStore = useUserStore()
 
-const activeTab = ref('sms')
+const pageData = reactive({
+  loginActiveTab: 'password',
+  isForgetPwd: false,
+  forgetActiveTab: 'phone'
+})
 
+const forgotPwd = () => {
+  pageData.isForgetPwd = true
+}
+const backLogin = () => {
+  pageData.isForgetPwd = false
+}
 </script>
 
 <style lang="scss" scoped>

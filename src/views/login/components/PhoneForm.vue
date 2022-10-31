@@ -1,22 +1,19 @@
 <template>
-  <el-form ref="loginFormRef" :model="loginFormModel" :rules="loginFormRules" class="form-wrap">
-    <el-form-item prop="username">
-      <el-input
-        v-model="loginFormModel.username"
-        :prefix-icon="User"
-        placeholder="请输入用户名/手机号/邮箱/身份证"
-        clearable
-      />
+  <el-form ref="loginFormRef" :model="loginFormModel" status-icon :rules="loginFormRules" class="form-wrap">
+    <el-form-item prop="phone">
+      <el-input v-model="loginFormModel.phone" :prefix-icon="Phone" placeholder="请输入手机号" clearable />
     </el-form-item>
-    <el-form-item prop="password">
-      <el-input
-        v-model="loginFormModel.password"
-        type="password"
-        :prefix-icon="Lock"
-        placeholder="请输入密码"
-        clearable
-        show-password
-      />
+    <el-form-item prop="code">
+      <div class="flex flex-grow items-center">
+        <el-input
+          v-model="loginFormModel.code"
+          type="code"
+          :prefix-icon="Lock"
+          placeholder="请输入短信验证码"
+          clearable
+        />
+        <SendMessageBtn/>
+      </div>
     </el-form-item>
     <div class="flex justify-center mt-6">
       <el-button
@@ -28,13 +25,13 @@
         {{ loginFormModel.loginButtonName }}
       </el-button>
     </div>
-    <slot></slot>
   </el-form>
 </template>
 
 <script setup>
 import { useUserStore } from '@/store/modules/user'
-import { User, Lock } from '@element-plus/icons-vue'
+import { Phone, Lock } from '@element-plus/icons-vue'
+import SendMessageBtn from './SendMessageBtn.vue'
 
 // 获取router变量
 const vueRouter = useRouter()
@@ -45,50 +42,40 @@ const loginFormRef = ref()
 
 // 定义表单对象
 const loginFormModel = reactive({
-  username: '',
-  password: '',
+  phone: '',
   code: '',
-  uuid: '',
-  codeUrl: '',
   loginButtonDisabled: false,
   loginButtonLoading: false,
-  loginButtonName: '登录'
+  loginButtonName: '下一步'
 })
 // 定义表单校验规则
 const loginFormRules = reactive({
-  username: [{ required: true, message: '请输入用户名/手机号/邮箱/身份证！', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码！', trigger: 'blur' }]
+  phone: [{ required: true, message: '请输入手机号！', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入短信验证码！', trigger: 'blur' }]
 })
 
 // 提交表单方法
 const submitForm = (formEl) => {
   loginFormModel.loginButtonDisabled = true
   loginFormModel.loginButtonLoading = true
-  loginFormModel.loginButtonName = '登录中...'
   formEl.validate((valid) => {
     if (valid) {
       userStore
         .loginRequest(loginFormModel)
         .then(() => {
-          vueRouter.push({ path: '/dashboard' }).catch(() => {})
+
         })
         .catch(() => {
           loginFormModel.loginButtonDisabled = false
           loginFormModel.loginButtonLoading = false
-          loginFormModel.loginButtonName = '登录'
         })
     } else {
       loginFormModel.loginButtonDisabled = false
       loginFormModel.loginButtonLoading = false
-      loginFormModel.loginButtonName = '登录'
     }
   })
 }
 
-if (import.meta.env.DEV) {
-  loginFormModel.username = 'admin'
-  loginFormModel.password = '123456'
-}
 </script>
 
 <style lang="scss" scoped></style>
