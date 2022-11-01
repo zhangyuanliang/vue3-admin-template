@@ -5,23 +5,28 @@ const props = defineProps({
     default: true
   }
 })
+const name = import.meta.env.VITE_PROJECT_NAME
 </script>
 
 <template>
   <div class="sidebar-logo-container" :class="{ 'sidebar-collapse': props.collapse }">
     <transition name="sidebar-logo-fade">
       <div v-if="props.collapse" key="collapse">
-        <img src="/vite.svg" class="sidebar-logo" />
+        <svg-icon name="vite"/>
       </div>
       <div v-else key="expand">
-        <img src="/vite.svg" class="sidebar-logo-text" />
-        <span class="title">Element vite3</span>
+        <svg-icon name="vite"/>
+        <span class="title">{{ name }}</span>
       </div>
     </transition>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.svg-icon {
+  font-size: 20px;
+  display: inline-block;
+}
 img {
   display: inline-block;
 }
@@ -29,12 +34,11 @@ img {
   position: relative;
   width: 100%;
   height: var(--v3-header-height);
-  padding: 0 10px;
   line-height: var(--v3-header-height);
   background-color: var(--v3-sidebarlogo-bg-color);
   text-align: center;
   overflow: hidden;
-  font-size: 20px;
+  font-size: 16px;
   color: #fff;
   .sidebar-logo {
     display: none;
@@ -45,7 +49,7 @@ img {
     align-items: center;
   }
   .sidebar-logo-text {
-    height: 60%;
+    height: 50%;
     vertical-align: middle;
   }
   .title {

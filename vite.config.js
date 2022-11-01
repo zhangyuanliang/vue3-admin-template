@@ -31,7 +31,7 @@ export default defineConfig(({ command, mode }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: 'vue3-admin-template'
+            title: loadEnv(mode, process.cwd()).VITE_PROJECT_NAME
           }
         }
       }),

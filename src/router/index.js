@@ -21,15 +21,15 @@ export const constantRoutes = [
   {
     path: "/",
     component: Layout,
-    redirect: "/dashboard",
+    redirect: "/workbench",
     children: [
       {
-        path: "dashboard",
-        component: () => import("@/views/dashboard/index.vue"),
-        name: "Dashboard",
+        path: "workbench",
+        component: () => import("@/views/workbench/index.vue"),
+        name: "Workbench",
         meta: {
-          title: "首页",
-          svgIcon: "dashboard",
+          title: "工作台",
+          svgIcon: "workbench",
           affix: true
         }
       }
@@ -42,7 +42,7 @@ export const constantRoutes = [
     name: "System",
     meta: {
       title: "系统管理",
-      svgIcon: "menu"
+      svgIcon: "setting"
     },
     children: [
       {
