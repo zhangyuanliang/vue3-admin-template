@@ -1,3 +1,29 @@
+<script setup>
+import { useUserStore } from '@/store/modules/user'
+import PasswordForm from './components/PasswordForm.vue'
+import SMSForm from './components/SMSForm.vue'
+import PhoneForm from './components/PhoneForm.vue'
+import EmailForm from './components/EmailForm.vue'
+
+// 获取router变量
+const vueRouter = useRouter()
+// 获取store变量
+const userStore = useUserStore()
+
+const pageData = reactive({
+  loginActiveTab: 'password',
+  isForgetPwd: false,
+  forgetActiveTab: 'phone'
+})
+
+const forgotPwd = () => {
+  pageData.isForgetPwd = true
+}
+const backLogin = () => {
+  pageData.isForgetPwd = false
+}
+</script>
+
 <template>
   <div class="login-container">
     <div class="loginbox">
@@ -40,32 +66,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useUserStore } from '@/store/modules/user'
-import PasswordForm from './components/PasswordForm.vue'
-import SMSForm from './components/SMSForm.vue'
-import PhoneForm from './components/PhoneForm.vue'
-import EmailForm from './components/EmailForm.vue'
-
-// 获取router变量
-const vueRouter = useRouter()
-// 获取store变量
-const userStore = useUserStore()
-
-const pageData = reactive({
-  loginActiveTab: 'password',
-  isForgetPwd: false,
-  forgetActiveTab: 'phone'
-})
-
-const forgotPwd = () => {
-  pageData.isForgetPwd = true
-}
-const backLogin = () => {
-  pageData.isForgetPwd = false
-}
-</script>
 
 <style lang="scss" scoped>
 .login-container {

@@ -44,7 +44,9 @@ const logout = () => {
       <ThemeSwitch v-if="showThemeSwitch" class="right-menu-item" />
       <!-- <Notify class="right-menu-item" /> -->
       <el-dropdown class="right-menu-item">
-        <el-avatar :icon="UserFilled" :size="28" />
+        <div>
+          <el-avatar :icon="UserFilled" :size="26" />
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="logout">

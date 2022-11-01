@@ -1,3 +1,7 @@
+<script setup>
+const name = import.meta.env.VITE_PROJECT_NAME
+</script>
+
 <template>
   <div class="app-container">
     <div class="bg-primary rounded px-4 py-1 text-white">{{ name }}:</div>
@@ -8,7 +12,7 @@
           <span>平台简介</span>
         </div>
       </template>
-      <div class="font-sans text-base container-wrap">
+      <div class="font-sans text-sm container-wrap">
         <div>
           <div>1、技术栈：</div>
           <svg-icon name="element-plus-logo"/>
@@ -29,10 +33,6 @@
     </el-card>
   </div>
 </template>
-
-<script setup>
-const name = import.meta.env.VITE_PROJECT_NAME
-</script>
 
 <style lang="scss" scoped>
 .svg-icon {

@@ -1,5 +1,4 @@
 <script setup>
-import { ref, onUnmounted } from "vue"
 import { ElMessage } from "element-plus"
 import screenfull from "screenfull"
 

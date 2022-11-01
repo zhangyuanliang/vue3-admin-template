@@ -1,12 +1,56 @@
+<script setup>
+import { useUserStore } from '@/store/modules/user'
+import { Message, Lock } from '@element-plus/icons-vue'
+import SendMessageBtn from './SendMessageBtn.vue'
+import ConfirmForm from './ConfirmForm.vue'
+
+// 获取router变量
+const vueRouter = useRouter()
+// 获取store变量
+const userStore = useUserStore()
+
+const emailFormRef = ref()
+const step = ref('one')
+
+// 定义表单对象
+const emailFormModel = reactive({
+  email: '',
+  code: '',
+  loginButtonDisabled: false,
+  loginButtonLoading: false,
+  loginButtonName: '下一步'
+})
+// 定义表单校验规则
+const emailFormRules = reactive({
+  email: [{ required: true, message: '请输入邮箱！', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入邮箱验证码！', trigger: 'blur' }]
+})
+
+// 提交表单方法
+const submitForm = (formEl) => {
+  emailFormModel.loginButtonDisabled = true
+  emailFormModel.loginButtonLoading = true
+  formEl.validate((valid) => {
+    if (valid) {
+      step.value = 'two'
+    } else {
+      emailFormModel.loginButtonDisabled = false
+      emailFormModel.loginButtonLoading = false
+    }
+  })
+}
+
+</script>
+
 <template>
-  <el-form ref="loginFormRef" :model="loginFormModel" status-icon :rules="loginFormRules" class="form-wrap">
-    <el-form-item prop="username">
-      <el-input v-model="loginFormModel.username" :prefix-icon="Message" placeholder="请输入邮箱" clearable />
+  <el-form v-if="step === 'one'" ref="emailFormRef" :model="emailFormModel" status-icon :rules="emailFormRules">
+    <el-form-item prop="email">
+      <el-input v-model="emailFormModel.email" :prefix-icon="Message" placeholder="请输入邮箱" clearable />
     </el-form-item>
     <el-form-item prop="code">
       <div class="flex flex-grow items-center">
         <el-input
-          v-model="loginFormModel.code"
+          v-model="emailFormModel.code"
           type="code"
           :prefix-icon="Lock"
           placeholder="请输入邮箱验证码"
@@ -18,68 +62,15 @@
     <div class="flex justify-center mt-6">
       <el-button
         type="primary"
-        @click="submitForm(loginFormRef)"
-        :disabled="loginFormModel.loginButtonDisabled"
-        :loading="loginFormModel.loginButtonLoading"
+        @click="submitForm(emailFormRef)"
+        :disabled="emailFormModel.loginButtonDisabled"
+        :loading="emailFormModel.loginButtonLoading"
       >
-        {{ loginFormModel.loginButtonName }}
+        {{ emailFormModel.loginButtonName }}
       </el-button>
     </div>
   </el-form>
+  <ConfirmForm v-else/>
 </template>
-
-<script setup>
-import { useUserStore } from '@/store/modules/user'
-import { Message, Lock } from '@element-plus/icons-vue'
-import SendMessageBtn from './SendMessageBtn.vue'
-
-// 获取router变量
-const vueRouter = useRouter()
-// 获取store变量
-const userStore = useUserStore()
-
-const loginFormRef = ref()
-
-// 定义表单对象
-const loginFormModel = reactive({
-  username: '',
-  code: '',
-  code: '',
-  uuid: '',
-  codeUrl: '',
-  loginButtonDisabled: false,
-  loginButtonLoading: false,
-  loginButtonName: '下一步'
-})
-// 定义表单校验规则
-const loginFormRules = reactive({
-  username: [{ required: true, message: '请输入邮箱！', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入邮箱验证码！', trigger: 'blur' }]
-})
-
-// 提交表单方法
-const submitForm = (formEl) => {
-  loginFormModel.loginButtonDisabled = true
-  loginFormModel.loginButtonLoading = true
-  console.log('first')
-  formEl.validate((valid) => {
-    if (valid) {
-      userStore
-        .loginRequest(loginFormModel)
-        .then(() => {
-          vueRouter.push({ path: '/workbench' }).catch(() => {})
-        })
-        .catch(() => {
-          loginFormModel.loginButtonDisabled = false
-          loginFormModel.loginButtonLoading = false
-        })
-    } else {
-      loginFormModel.loginButtonDisabled = false
-      loginFormModel.loginButtonLoading = false
-    }
-  })
-}
-
-</script>
 
 <style lang="scss" scoped></style>
