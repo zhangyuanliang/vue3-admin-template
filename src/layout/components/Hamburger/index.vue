@@ -1,6 +1,4 @@
 <script setup>
-import { Expand, Fold } from "@element-plus/icons-vue"
-
 const props = defineProps({
   isActive: {
     type: Boolean,
@@ -18,8 +16,8 @@ const toggleClick = () => {
 <template>
   <div @click="toggleClick">
     <el-icon :size="20" class="icon">
-      <Fold v-if="props.isActive" />
-      <Expand v-else />
+      <svg-icon v-if="props.isActive" name="menu-fold"/>
+      <svg-icon v-else name="menu-expand"/>
     </el-icon>
   </div>
 </template>
