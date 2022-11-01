@@ -1,13 +1,13 @@
 <script setup>
-import { ElMessage } from "element-plus"
-import screenfull from "screenfull"
+import { ElMessage } from 'element-plus'
+import screenfull from 'screenfull'
 
-const content = ref("全屏")
+const content = ref('全屏')
 const isFullscreen = ref(false)
 
 const click = () => {
   if (!screenfull.isEnabled) {
-    ElMessage.warning("您的浏览器无法工作")
+    ElMessage.warning('您的浏览器无法工作')
     return
   }
   screenfull.toggle()
@@ -15,14 +15,14 @@ const click = () => {
 
 const change = () => {
   isFullscreen.value = screenfull.isFullscreen
-  content.value = screenfull.isFullscreen ? "退出全屏" : "全屏"
+  content.value = screenfull.isFullscreen ? '退出全屏' : '全屏'
 }
 
-screenfull.on("change", change)
+screenfull.on('change', change)
 
 onUnmounted(() => {
   if (screenfull.isEnabled) {
-    screenfull.off("change", change)
+    screenfull.off('change', change)
   }
 })
 </script>

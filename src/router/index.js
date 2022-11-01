@@ -55,6 +55,15 @@ export const constantRoutes = [
         }
       },
       {
+        path: "organization",
+        component: () => import("@/views/system/organization/index.vue"),
+        name: "Organization",
+        meta: {
+          title: "组织管理",
+          svgIcon: ""
+        }
+      },
+      {
         path: "log",
         component: () => import("@/views/system/log/index.vue"),
         name: "Log",
