@@ -1,7 +1,7 @@
 <script setup>
 import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from '@/api/table'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search, Refresh, CirclePlus, Delete } from '@element-plus/icons-vue'
+import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 
 const loading = ref(false)
@@ -139,7 +139,7 @@ const resetSearch = () => {
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">新增用户</el-button>
+          <el-button type="primary" :icon="Plus" @click="dialogVisible = true">新增用户</el-button>
           <el-button type="danger" :icon="Delete">批量删除</el-button>
         </div>
       </div>
@@ -170,7 +170,7 @@ const resetSearch = () => {
           </el-table-column>
         </el-table>
       </div>
-      <div class="pager-wrapper">
+      <div class="flex justify-end">
         <el-pagination
           background
           :layout="paginationData.layout"
@@ -225,8 +225,4 @@ const resetSearch = () => {
   margin-bottom: 20px;
 }
 
-.pager-wrapper {
-  display: flex;
-  justify-content: flex-end;
-}
 </style>

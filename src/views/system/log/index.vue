@@ -1,11 +1,22 @@
 <script setup>
 import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from '@/api/table'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search, Refresh, CirclePlus, Delete } from '@element-plus/icons-vue'
+import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+  },
+]
 
 const dialogVisible = ref(false)
 const formRef = ref(null)
@@ -121,7 +132,15 @@ const resetSearch = () => {
           <el-input v-model="searchData.username" placeholder="请输入用户名称" />
         </el-form-item>
         <el-form-item prop="username" label="状态">
-          <el-input v-model="searchData.username" placeholder="请输入用户名称" />
+          <el-select v-model="searchData.status" placeholder="请选择状态">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              :disabled="item.disabled"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -132,7 +151,7 @@ const resetSearch = () => {
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">新增顶级组织</el-button>
+          <el-button type="primary" :icon="Plus" @click="dialogVisible = true">新增顶级组织</el-button>
         </div>
       </div>
       <div class="table-wrapper">
@@ -161,7 +180,7 @@ const resetSearch = () => {
           </el-table-column>
         </el-table>
       </div>
-      <div class="pager-wrapper">
+      <div class="flex justify-end">
         <el-pagination
           background
           :layout="paginationData.layout"
@@ -215,8 +234,4 @@ const resetSearch = () => {
   margin-bottom: 20px;
 }
 
-.pager-wrapper {
-  display: flex;
-  justify-content: flex-end;
-}
 </style>

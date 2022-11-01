@@ -72,6 +72,15 @@ export const constantRoutes = [
           svgIcon: ""
         }
       },
+      {
+        path: "dictionary",
+        component: () => import("@/views/system/dictionary/index.vue"),
+        name: "Dictionary",
+        meta: {
+          title: "字典管理",
+          svgIcon: ""
+        }
+      },
     ]
   },
 ];
