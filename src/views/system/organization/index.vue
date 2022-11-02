@@ -116,7 +116,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" plain :icon="Plus" @click="dialogVisible = true">新增顶级组织</el-button>
+          <el-button type="primary" plain :icon="Plus" @click="pageData.isShowAddDialog = true">新增顶级组织</el-button>
         </div>
       </div>
       <div class="table-wrapper">

@@ -9,9 +9,9 @@ export default [
         message: 'ok',
         data: {
           roleName: 'admin',
-          roleValue: 'admin',
-        },
+          roleValue: 'admin'
+        }
       }
-    },
-  },
+    }
+  }
 ]

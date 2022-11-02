@@ -124,7 +124,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData" max-height="65vh">
+        <el-table :data="tableData" max-height="64vh">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="realName" label="用户名" align="center" />
           <el-table-column prop="roleName" label="角色" align="center">
@@ -179,6 +179,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  :deep(.el-button) {
+    padding: 6px 10px;
+  }
 }
 
 .table-wrapper {

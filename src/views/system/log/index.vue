@@ -1,86 +1,10 @@
 <script setup>
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from '@/api/table'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
+import { queryLog } from '@/api/system/log'
+import { Search, Refresh, Plus } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-]
-
-const dialogVisible = ref(false)
-const formRef = ref(null)
-const formData = reactive({
-  username: '',
-  password: ''
-})
-const formRules = reactive({
-  username: [{ required: true, trigger: 'blur', message: '请输入用户名称' }],
-  password: [{ required: true, trigger: 'blur', message: '请输入密码' }]
-})
-const handleCreate = () => {
-  formRef.value?.validate((valid) => {
-    if (valid) {
-      if (currentUpdateId.value === undefined) {
-        createTableDataApi({
-          username: formData.username,
-          password: formData.password
-        }).then(() => {
-          ElMessage.success('新增成功')
-          dialogVisible.value = false
-          getTableData()
-        })
-      } else {
-        updateTableDataApi({
-          id: currentUpdateId.value,
-          username: formData.username
-        }).then(() => {
-          ElMessage.success('修改成功')
-          dialogVisible.value = false
-          getTableData()
-        })
-      }
-    } else {
-      return false
-    }
-  })
-}
-const resetForm = () => {
-  currentUpdateId.value = undefined
-  formData.username = ''
-  formData.password = ''
-}
-
-const handleDelete = (row) => {
-  ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    deleteTableDataApi(row.id).then(() => {
-      ElMessage.success('删除成功')
-      getTableData()
-    })
-  })
-}
-
-const currentUpdateId = ref(undefined)
-const handleUpdate = (row) => {
-  currentUpdateId.value = row.id
-  formData.username = row.username
-  formData.password = row.password
-  dialogVisible.value = true
-}
 
 const tableData = ref([])
 const searchFormRef = ref()
@@ -90,7 +14,7 @@ const searchData = reactive({
 })
 const getTableData = () => {
   loading.value = true
-  getTableDataApi({
+  queryLog({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
@@ -98,7 +22,7 @@ const getTableData = () => {
   })
     .then((res) => {
       paginationData.total = res.data.total
-      tableData.value = res.data.list
+      tableData.value = res.data.records
     })
     .catch(() => {
       tableData.value = []
@@ -121,7 +45,7 @@ const resetSearch = () => {
   paginationData.currentPage = 1
 }
 
-// watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>
@@ -157,27 +81,19 @@ const resetSearch = () => {
       <div class="table-wrapper">
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="username" label="组织名称" align="center" />
-          <el-table-column prop="roles" label="组织类型" align="center">
+          <el-table-column prop="realName" width="120" label="用户名称" align="center" />
+          <el-table-column prop="system" width="120" label="操作系统" align="center" />
+          <el-table-column prop="browser" width="120" label="浏览器" align="center" />
+          <el-table-column prop="browserVersion" width="220" label="浏览器版本" align="center" />
+          <el-table-column prop="ip" width="150" label="IP地址" align="center" />
+          <el-table-column prop="status" width="150" label="操作状态" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.roles === 'admin'" effect="plain">机构</el-tag>
-              <el-tag v-else type="warning" effect="plain">部门</el-tag>
+              <el-tag v-if="scope.row.status" type="success" effect="plain">成功</el-tag>
+              <el-tag v-else type="danger" effect="plain">失败</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="phone" label="显示顺序" align="center" />
-          <el-table-column prop="status" label="状态" align="center">
-            <template #default="scope">
-              <el-tag v-if="scope.row.status" type="success" effect="plain">启用</el-tag>
-              <el-tag v-else type="danger" effect="plain">禁用</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="150" align="center">
-            <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">新增</el-button>
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
+          <el-table-column prop="operation" width="150" label="操作信息" align="center" />
+          <el-table-column prop="createTime" width="160" label="操作日期" align="center" />
         </el-table>
       </div>
       <div class="flex justify-end">
@@ -194,26 +110,6 @@ const resetSearch = () => {
         />
       </div>
     </div>
-    <!-- 新增/修改 -->
-    <el-dialog
-      v-model="dialogVisible"
-      :title="currentUpdateId === undefined ? '新增用户' : '修改用户'"
-      @close="resetForm"
-      width="30%"
-    >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="username" label="用户名">
-          <el-input v-model="formData.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="password" label="密码">
-          <el-input v-model="formData.password" placeholder="请输入" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleCreate">确认</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -233,5 +129,4 @@ const resetSearch = () => {
 .table-wrapper {
   margin-bottom: 20px;
 }
-
 </style>
