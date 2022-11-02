@@ -27,9 +27,9 @@ export function updateTableDataApi(data) {
 }
 
 /** 查 */
-export function queryUser(params) {
+export function queryOrganization(params) {
   return request({
-    url: "/queryUser",
+    url: "/queryOrganization",
     method: "get",
     params
   })

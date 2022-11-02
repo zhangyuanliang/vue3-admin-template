@@ -1,5 +1,5 @@
 <script setup>
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryUserList } from '@/api/system/user'
+import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryUser } from '@/api/system/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
@@ -66,7 +66,7 @@ const searchData = reactive({
 })
 const getTableData = () => {
   loading.value = true
-  queryUserList({
+  queryUser({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
