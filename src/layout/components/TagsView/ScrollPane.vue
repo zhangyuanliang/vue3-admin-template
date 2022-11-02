@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue"
 import { ElScrollbar } from "element-plus"
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue"
 

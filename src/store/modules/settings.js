@@ -1,4 +1,3 @@
-import { ref } from "vue"
 import { defineStore } from "pinia"
 import layoutSettings from "@/config/layout"
 

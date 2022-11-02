@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from "vue"
 import SidebarItemLink from "./SidebarItemLink.vue"
 import { isExternal } from "@/utils/validate"
 import path from "path-browserify"

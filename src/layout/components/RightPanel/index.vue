@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue"
 import { Setting } from "@element-plus/icons-vue"
 
 const props = defineProps({

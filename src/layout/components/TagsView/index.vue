@@ -1,6 +1,4 @@
 <script setup>
-import { getCurrentInstance, onMounted, ref, watch } from "vue"
-import { useRoute, useRouter } from "vue-router"
 import { useTagsViewStore } from "@/store/modules/tags-view"
 import { usePermissionStore } from "@/store/modules/permission"
 import ScrollPane from "./ScrollPane.vue"

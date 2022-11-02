@@ -4,8 +4,7 @@ const name = import.meta.env.VITE_PROJECT_NAME
 
 <template>
   <div class="app-container">
-    <div class="bg-primary rounded px-4 py-1 text-white">{{ name }}:</div>
-    <br />
+    <div class="bg-primary rounded px-4 py-1 text-white mb-4">{{ name }} 项目:</div>
     <el-card>
       <template #header>
         <div class="card-header">

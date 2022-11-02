@@ -1,4 +1,3 @@
-import { ref } from "vue"
 import { getActiveThemeName, setActiveThemeName } from "@/utils/localStorage"
 
 /** 主题列表 */

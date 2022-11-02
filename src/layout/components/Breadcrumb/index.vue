@@ -1,6 +1,4 @@
 <script setup>
-import { ref, watch } from "vue"
-import { useRoute, useRouter } from "vue-router"
 import { compile } from "path-to-regexp"
 
 const route = useRoute()
