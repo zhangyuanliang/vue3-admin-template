@@ -13,10 +13,10 @@ const pageData = reactive({
   editingId: ''
 })
 
-const createUser = () => {
+const createUser = (record) => {
   createTableDataApi({
-    username: formData.username,
-    password: formData.password
+    username: record.username,
+    password: record.password
   }).then(() => {
     ElMessage.success('新增成功')
     pageData.isShowAddDialog = false
@@ -24,10 +24,10 @@ const createUser = () => {
   })
 }
 
-const updateUser = () => {
+const updateUser = (record) => {
   updateTableDataApi({
-    id: currentUpdateId.value,
-    username: formData.username
+    id: pageData.editingId,
+    username: record.username
   }).then(() => {
     ElMessage.success('修改成功')
     pageData.isShowAddDialog = false
@@ -36,11 +36,16 @@ const updateUser = () => {
 }
 
 const handleDelete = (row) => {
-  ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
+  ElMessageBox.confirm(
+    `正在删除用户：${row.realName}，确认删除？`,
+    'Warning',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+  .then(() => {
     deleteTableDataApi(row.id).then(() => {
       ElMessage.success('删除成功')
       getTableData()
@@ -50,8 +55,6 @@ const handleDelete = (row) => {
 
 const handleUpdate = (row) => {
   pageData.editingId = row.id
-  formData.username = row.username
-  formData.password = row.password
   pageData.isShowAddDialog = true
 }
 

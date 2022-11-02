@@ -23,9 +23,9 @@ const handleCreate = () => {
   formRef.value?.validate((valid) => {
     if (valid) {
       if (!id) {
-        emit('create')
+        emit('create', formData)
       } else {
-        emit('update')
+        emit('update', formData)
       }
     } else {
       return false
