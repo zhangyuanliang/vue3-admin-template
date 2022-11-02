@@ -43,13 +43,13 @@ const resetForm = () => {
   <!-- 新增/修改 -->
   <el-dialog
     v-model="visible"
-    :title="currentUpdateId === undefined ? '新增用户' : '修改用户'"
+    :title="id ? '修改用户' : '新增用户'"
     @close="resetForm"
     width="60%"
   >
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
       <el-form-item prop="username" label="用户名">
-        <el-input v-model="formData.username" placeholder="请输入" />
+        <el-input v-model="formData.username" placeholder="请输入用户名" />
       </el-form-item>
       <el-form-item prop="password" label="密码">
         <el-input v-model="formData.password" placeholder="请输入" />

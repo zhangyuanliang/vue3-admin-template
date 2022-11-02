@@ -70,7 +70,7 @@ const getTableData = () => {
     phone: searchData.phone || undefined
   })
     .then((res) => {
-      paginationData.total = res.data.total
+      paginationData.total = parseInt(res.data.total)
       tableData.value = res.data.records
     })
     .catch(() => {
@@ -161,7 +161,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         />
       </div>
     </div>
-    <AddUser v-model:visible="pageData.isShowAddDialog" :id="editingId" @create="createUser" @update="updateUser" />
+    <AddUser v-model:visible="pageData.isShowAddDialog" :id="pageData.editingId" @create="createUser" @update="updateUser" />
   </div>
 </template>
 
