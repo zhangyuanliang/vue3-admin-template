@@ -1,6 +1,6 @@
 const layoutSettings = {
   showSettings: false,
-  showTagsView: false,
+  showTagsView: true,
   fixedHeader: true,
   showSidebarLogo: true,
   showThemeSwitch: false,

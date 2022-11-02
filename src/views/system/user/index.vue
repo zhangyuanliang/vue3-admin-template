@@ -7,7 +7,6 @@ import { usePagination } from '@/hooks/usePagination'
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
-//#region 增
 const dialogVisible = ref(false)
 const formRef = ref(null)
 const formData = reactive({
@@ -50,9 +49,7 @@ const resetForm = () => {
   formData.username = ''
   formData.password = ''
 }
-//#endregion
 
-//#region 删
 const handleDelete = (row) => {
   ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, '提示', {
     confirmButtonText: '确定',
@@ -65,9 +62,7 @@ const handleDelete = (row) => {
     })
   })
 }
-//#endregion
 
-//#region 改
 const currentUpdateId = ref(undefined)
 const handleUpdate = (row) => {
   currentUpdateId.value = row.id
@@ -75,9 +70,7 @@ const handleUpdate = (row) => {
   formData.password = row.password
   dialogVisible.value = true
 }
-//#endregion
 
-//#region 查
 const tableData = ref([])
 const searchFormRef = ref()
 const searchData = reactive({
@@ -209,7 +202,6 @@ const resetSearch = () => {
 
 <style lang="scss" scoped>
 .search-wrapper {
-  // margin-bottom: 20px;
   :deep(.el-card__body) {
     padding-bottom: 2px;
   }
