@@ -119,12 +119,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="Plus" @click="pageData.isShowAddDialog = true">新增用户</el-button>
-          <el-button type="danger" :icon="Delete">批量删除</el-button>
+          <el-button type="primary" plain :icon="Plus" @click="pageData.isShowAddDialog = true">新增用户</el-button>
+          <el-button type="danger" plain :icon="Delete">批量删除</el-button>
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" max-height="65vh">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="realName" label="用户名" align="center" />
           <el-table-column prop="roleName" label="角色" align="center">
