@@ -57,7 +57,7 @@ const resetSearch = () => {
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="Plus" @click="dialogVisible = true">新增</el-button>
+          <el-button type="primary" plain :icon="Plus" @click="dialogVisible = true">新增</el-button>
         </div>
       </div>
       <div class="table-wrapper">
