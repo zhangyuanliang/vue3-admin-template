@@ -3,51 +3,36 @@ import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryUserLi
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
+import AddUser from './components/AddUser.vue'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
-const dialogVisible = ref(false)
-const formRef = ref(null)
-const formData = reactive({
-  username: '',
-  password: ''
+const pageData = reactive({
+  isShowAddDialog: false,
+  editingId: ''
 })
-const formRules = reactive({
-  username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
-  password: [{ required: true, trigger: 'blur', message: '请输入密码' }]
-})
-const handleCreate = () => {
-  formRef.value?.validate((valid) => {
-    if (valid) {
-      if (currentUpdateId.value === undefined) {
-        createTableDataApi({
-          username: formData.username,
-          password: formData.password
-        }).then(() => {
-          ElMessage.success('新增成功')
-          dialogVisible.value = false
-          getTableData()
-        })
-      } else {
-        updateTableDataApi({
-          id: currentUpdateId.value,
-          username: formData.username
-        }).then(() => {
-          ElMessage.success('修改成功')
-          dialogVisible.value = false
-          getTableData()
-        })
-      }
-    } else {
-      return false
-    }
+
+const createUser = () => {
+  createTableDataApi({
+    username: formData.username,
+    password: formData.password
+  }).then(() => {
+    ElMessage.success('新增成功')
+    pageData.isShowAddDialog = false
+    getTableData()
   })
 }
-const resetForm = () => {
-  currentUpdateId.value = undefined
-  formData.username = ''
-  formData.password = ''
+
+const updateUser = () => {
+  updateTableDataApi({
+    id: currentUpdateId.value,
+    username: formData.username
+  }).then(() => {
+    ElMessage.success('修改成功')
+    pageData.isShowAddDialog = false
+    getTableData()
+  })
 }
 
 const handleDelete = (row) => {
@@ -63,12 +48,11 @@ const handleDelete = (row) => {
   })
 }
 
-const currentUpdateId = ref(undefined)
 const handleUpdate = (row) => {
-  currentUpdateId.value = row.id
+  pageData.editingId = row.id
   formData.username = row.username
   formData.password = row.password
-  dialogVisible.value = true
+  pageData.isShowAddDialog = true
 }
 
 const tableData = ref([])
@@ -132,7 +116,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="Plus" @click="dialogVisible = true">新增用户</el-button>
+          <el-button type="primary" :icon="Plus" @click="pageData.isShowAddDialog = true">新增用户</el-button>
           <el-button type="danger" :icon="Delete">批量删除</el-button>
         </div>
       </div>
@@ -177,26 +161,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         />
       </div>
     </div>
-    <!-- 新增/修改 -->
-    <el-dialog
-      v-model="dialogVisible"
-      :title="currentUpdateId === undefined ? '新增用户' : '修改用户'"
-      @close="resetForm"
-      width="30%"
-    >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="username" label="用户名">
-          <el-input v-model="formData.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="password" label="密码">
-          <el-input v-model="formData.password" placeholder="请输入" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleCreate">确认</el-button>
-      </template>
-    </el-dialog>
+    <AddUser v-model:visible="pageData.isShowAddDialog" :id="editingId" @create="createUser" @update="updateUser" />
   </div>
 </template>
 
