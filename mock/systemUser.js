@@ -58,7 +58,7 @@ export default [
               "phonenumber": "13999999999",
             },
           ],
-          "total": "2",
+          "total": 2,
           "size": "20",
           "current": "1",
           "orders": [],

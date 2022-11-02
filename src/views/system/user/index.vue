@@ -70,7 +70,7 @@ const getTableData = () => {
     phone: searchData.phone || undefined
   })
     .then((res) => {
-      paginationData.total = parseInt(res.data.total)
+      paginationData.total = res.data.total
       tableData.value = res.data.records
     })
     .catch(() => {
