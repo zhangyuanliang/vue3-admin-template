@@ -1,5 +1,5 @@
 <script setup>
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, getTableDataApi } from '@/api/table'
+import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryUserList } from '@/api/system/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
@@ -79,7 +79,7 @@ const searchData = reactive({
 })
 const getTableData = () => {
   loading.value = true
-  getTableDataApi({
+  queryUserList({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
@@ -87,7 +87,7 @@ const getTableData = () => {
   })
     .then((res) => {
       paginationData.total = res.data.total
-      tableData.value = res.data.list
+      tableData.value = res.data.records
     })
     .catch(() => {
       tableData.value = []
@@ -110,7 +110,7 @@ const resetSearch = () => {
   paginationData.currentPage = 1
 }
 
-// watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>
@@ -139,18 +139,18 @@ const resetSearch = () => {
       <div class="table-wrapper">
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="username" label="用户名" align="center" />
-          <el-table-column prop="roles" label="角色" align="center">
+          <el-table-column prop="realName" label="用户名" align="center" />
+          <el-table-column prop="roleName" label="角色" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.roles === 'admin'" effect="plain">admin</el-tag>
-              <el-tag v-else type="warning" effect="plain">{{ scope.row.roles }}</el-tag>
+              <el-tag v-if="scope.row.roleId === '3'" effect="plain">admin</el-tag>
+              <el-tag v-else type="warning" effect="plain">{{ scope.row.roleName }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="phone" label="手机号" align="center" />
+          <el-table-column prop="phonenumber" label="手机号" align="center" />
           <el-table-column prop="email" label="邮箱" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.status" type="success" effect="plain">启用</el-tag>
+              <el-tag v-if="!scope.row.status" type="success" effect="plain">启用</el-tag>
               <el-tag v-else type="danger" effect="plain">禁用</el-tag>
             </template>
           </el-table-column>
@@ -216,5 +216,4 @@ const resetSearch = () => {
 .table-wrapper {
   margin-bottom: 20px;
 }
-
 </style>

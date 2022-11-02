@@ -25,9 +25,6 @@ service.interceptors.request.use(
 // response拦截器
 service.interceptors.response.use(
   (response) => {
-    /**
-     * code为非A00000是抛错
-     */
     const res = response.data;
     if (res.code !== 200) {
       ElMessage({
@@ -36,7 +33,6 @@ service.interceptors.response.use(
         duration: 5 * 1000,
       });
 
-      //  A00004: 未登录或Token 过期了; A00002: 系统繁忙，此结果一般表示系统有错，需开发人员解决
       if (res.code === 401) {
         ElMessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
           confirmButtonText: '重新登录',
@@ -50,7 +46,6 @@ service.interceptors.response.use(
           });
         });
       }
-      // A00003:业务错误
       if (res.code === 500) {
         ElMessage({
           message: res.msg,
