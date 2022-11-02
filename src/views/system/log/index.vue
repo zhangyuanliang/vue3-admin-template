@@ -88,20 +88,20 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="realName" width="120" label="用户名称" align="center" />
-          <el-table-column prop="system" width="120" label="操作系统" align="center" />
-          <el-table-column prop="browser" width="120" label="浏览器" align="center" />
-          <el-table-column prop="browserVersion" width="220" label="浏览器版本" align="center" />
-          <el-table-column prop="ip" width="150" label="IP地址" align="center" />
-          <el-table-column prop="status" width="150" label="操作状态" align="center">
+          <el-table-column type="selection" min-width="50" align="center" />
+          <el-table-column prop="realName" min-width="120" label="用户名称" align="center" />
+          <el-table-column prop="system" min-width="120" label="操作系统" align="center" />
+          <el-table-column prop="browser" min-width="120" label="浏览器" align="center" />
+          <el-table-column prop="browserVersion" min-width="220" label="浏览器版本" align="center" />
+          <el-table-column prop="ip" min-width="150" label="IP地址" align="center" />
+          <el-table-column prop="status" min-width="150" label="操作状态" align="center">
             <template #default="scope">
               <el-tag v-if="scope.row.status" type="success" effect="plain">成功</el-tag>
               <el-tag v-else type="danger" effect="plain">失败</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="operation" width="150" label="操作信息" align="center" />
-          <el-table-column prop="createTime" width="160" label="操作日期" align="center" />
+          <el-table-column prop="operation" min-width="150" label="操作信息" align="center" />
+          <el-table-column prop="createTime" min-width="160" label="操作日期" align="center" />
         </el-table>
       </div>
       <div class="flex justify-end">

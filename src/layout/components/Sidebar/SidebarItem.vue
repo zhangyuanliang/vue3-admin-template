@@ -1,7 +1,7 @@
 <script setup>
-import SidebarItemLink from "./SidebarItemLink.vue"
-import { isExternal } from "@/utils/validate"
-import path from "path-browserify"
+import SidebarItemLink from './SidebarItemLink.vue'
+import { isExternal } from '@/utils/validate'
+import path from 'path-browserify'
 
 const props = defineProps({
   item: {
@@ -18,7 +18,7 @@ const props = defineProps({
   },
   basePath: {
     type: String,
-    default: ""
+    default: ''
   }
 })
 
@@ -47,7 +47,7 @@ const theOnlyOneChild = computed(() => {
       }
     }
   }
-  return { ...props.item, path: "" }
+  return { ...props.item, path: '' }
 })
 
 const resolvePath = (routePath) => {
@@ -121,6 +121,16 @@ svg {
         visibility: hidden;
       }
     }
+  }
+  :deep(.el-menu-item) {
+    height: var(--v3-sidebar-menu-item-height);
+  }
+  :deep(.el-menu-item:hover) {
+    background-color: var(--v3-sidebar-menu-hover-bg-color);
+    color: #fff;
+  }
+  :deep(.el-menu-item.is-active) {
+    background-color: var(--v3-sidebar-menu-active-bg-color);
   }
 }
 </style>

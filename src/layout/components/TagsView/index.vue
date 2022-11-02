@@ -245,6 +245,7 @@ onMounted(() => {
     font-weight: 400;
     color: #333;
     box-shadow: 2px 2px 3px 0 #00000030;
+    border-left: 1px solid #f8f8f8;
     li {
       margin: 0;
       padding: 7px 16px;
