@@ -10,12 +10,12 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 const options = [
   {
-    value: '正常',
-    label: '1'
+    value: '1',
+    label: '正常'
   },
   {
-    value: '停用',
-    label: '0'
+    value: '0',
+    label: '停用'
   }
 ]
 

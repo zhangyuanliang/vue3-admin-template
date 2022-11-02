@@ -8,12 +8,12 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 const options = [
   {
-    value: '成功',
-    label: '1'
+    value: '1',
+    label: '成功'
   },
   {
-    value: '失败',
-    label: '0'
+    value: '0',
+    label: '失败'
   }
 ]
 
