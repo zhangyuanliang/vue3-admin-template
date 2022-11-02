@@ -175,15 +175,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   }
 }
 
-.toolbar-wrapper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  :deep(.el-button) {
-    padding: 6px 10px;
-  }
-}
-
 .table-wrapper {
   margin-bottom: 20px;
 }

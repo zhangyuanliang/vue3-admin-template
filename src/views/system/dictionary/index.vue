@@ -1,9 +1,73 @@
 <script setup>
-import { Search, Refresh, Plus } from '@element-plus/icons-vue'
+import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryUser } from '@/api/system/user'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
+import AddDictionary from './components/AddDictionary.vue'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+
+const options = [
+  {
+    value: '正常',
+    label: '1'
+  },
+  {
+    value: '停用',
+    label: '0'
+  }
+]
+
+const pageData = reactive({
+  isShowAddDialog: false,
+  editingId: ''
+})
+
+const createUser = (record) => {
+  createTableDataApi({
+    username: record.username,
+    password: record.password
+  }).then(() => {
+    ElMessage.success('新增成功')
+    pageData.isShowAddDialog = false
+    getTableData()
+  })
+}
+
+const updateUser = (record) => {
+  updateTableDataApi({
+    id: pageData.editingId,
+    username: record.username
+  }).then(() => {
+    ElMessage.success('修改成功')
+    pageData.isShowAddDialog = false
+    getTableData()
+  })
+}
+
+const handleDelete = (row) => {
+  ElMessageBox.confirm(
+    `正在删除用户：${row.realName}，确认删除？`,
+    'Warning',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+  .then(() => {
+    deleteTableDataApi(row.id).then(() => {
+      ElMessage.success('删除成功')
+      getTableData()
+    })
+  })
+}
+
+const handleUpdate = (row) => {
+  pageData.editingId = row.id
+  pageData.isShowAddDialog = true
+}
 
 const tableData = ref([])
 const searchFormRef = ref()
@@ -11,7 +75,25 @@ const searchData = reactive({
   username: '',
   phone: ''
 })
-
+const getTableData = () => {
+  loading.value = true
+  queryUser({
+    currentPage: paginationData.currentPage,
+    size: paginationData.pageSize,
+    username: searchData.username || undefined,
+    phone: searchData.phone || undefined
+  })
+    .then((res) => {
+      paginationData.total = res.data.total
+      tableData.value = res.data.records
+    })
+    .catch(() => {
+      tableData.value = []
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 const handleSearch = () => {
   if (paginationData.currentPage === 1) {
     getTableData()
@@ -25,6 +107,8 @@ const resetSearch = () => {
   }
   paginationData.currentPage = 1
 }
+
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>
@@ -34,8 +118,8 @@ const resetSearch = () => {
         <el-form-item prop="username" label="字典名称">
           <el-input v-model="searchData.username" placeholder="请输入字典名称" />
         </el-form-item>
-        <el-form-item prop="username" label="字典类型">
-          <el-input v-model="searchData.username" placeholder="请输入字典类型" />
+        <el-form-item prop="phone" label="字典类型">
+          <el-input v-model="searchData.phone" placeholder="请输入字典类型" />
         </el-form-item>
         <el-form-item prop="username" label="状态">
           <el-select v-model="searchData.status" placeholder="请选择状态">
@@ -57,26 +141,28 @@ const resetSearch = () => {
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" plain :icon="Plus" @click="dialogVisible = true">新增</el-button>
+          <el-button type="primary" plain :icon="Plus" @click="pageData.isShowAddDialog = true">新增</el-button>
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" max-height="64vh">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="username" label="字典名称" align="center" />
-          <el-table-column prop="roles" label="字典类型" align="center">
+          <el-table-column prop="realName" label="用户名" align="center" />
+          <el-table-column prop="roleName" label="角色" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.roles === 'admin'" effect="plain">机构</el-tag>
-              <el-tag v-else type="warning" effect="plain">部门</el-tag>
+              <el-tag v-if="scope.row.roleId === '3'" effect="plain">admin</el-tag>
+              <el-tag v-else type="warning" effect="plain">{{ scope.row.roleName }}</el-tag>
             </template>
           </el-table-column>
+          <el-table-column prop="phonenumber" label="手机号" align="center" />
+          <el-table-column prop="email" label="邮箱" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.status" type="success" effect="plain">启用</el-tag>
+              <el-tag v-if="!scope.row.status" type="success" effect="plain">启用</el-tag>
               <el-tag v-else type="danger" effect="plain">禁用</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="time" label="创建时间" align="center" />
+          <el-table-column prop="createTime" label="创建时间" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
@@ -99,6 +185,7 @@ const resetSearch = () => {
         />
       </div>
     </div>
+    <AddDictionary v-model:visible="pageData.isShowAddDialog" :id="pageData.editingId" @create="createUser" @update="updateUser" />
   </div>
 </template>
 
@@ -107,12 +194,6 @@ const resetSearch = () => {
   :deep(.el-card__body) {
     padding-bottom: 2px;
   }
-}
-
-.toolbar-wrapper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
 }
 
 .table-wrapper {

@@ -6,6 +6,17 @@ import { usePagination } from '@/hooks/usePagination'
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
+const options = [
+  {
+    value: '成功',
+    label: '1'
+  },
+  {
+    value: '失败',
+    label: '0'
+  }
+]
+
 const tableData = ref([])
 const searchFormRef = ref()
 const searchData = reactive({
@@ -74,9 +85,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </div>
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
-        <div>
-          <el-button type="primary" :icon="Plus" @click="dialogVisible = true">新增顶级组织</el-button>
-        </div>
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
