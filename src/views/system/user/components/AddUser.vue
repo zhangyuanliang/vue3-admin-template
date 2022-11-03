@@ -19,7 +19,7 @@ const formData = reactive({
 const formRules = reactive({
   account: [{ required: true, trigger: 'blur', message: '请输入账号！' }],
   password: [{ required: true, trigger: 'blur', message: '请输入密码！' }],
-  username: [{ required: true, trigger: 'blur', message: '请输入用户名！' }],
+  username: [{ required: true, trigger: 'blur', message: '请输入真实姓名！' }],
   role: [{ required: true, trigger: 'blur', message: '请选择角色！' }]
 })
 const handleCreate = () => {

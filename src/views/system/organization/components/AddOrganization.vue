@@ -87,7 +87,7 @@ const resetForm = () => {
         </div>
         <div class="w-1/2 px-4">
           <el-form-item prop="status" label="状态">
-            <el-radio-group v-model="status" class="ml-4">
+            <el-radio-group v-model="formData.status" class="ml-4">
               <el-radio label="1">启用</el-radio>
               <el-radio label="2">停用</el-radio>
             </el-radio-group>

@@ -72,8 +72,9 @@ const handleUpdate = (row) => {
 const tableData = ref([])
 const searchFormRef = ref()
 const searchData = reactive({
-  username: '',
-  phone: ''
+  dicName: '',
+  dicType: '',
+  status: '',
 })
 const getTableData = () => {
   loading.value = true
@@ -115,13 +116,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <div shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="username" label="字典名称">
-          <el-input v-model="searchData.username" placeholder="请输入字典名称" />
+        <el-form-item prop="dicName" label="字典名称">
+          <el-input v-model="searchData.dicName" placeholder="请输入字典名称" />
         </el-form-item>
-        <el-form-item prop="phone" label="字典类型">
-          <el-input v-model="searchData.phone" placeholder="请输入字典类型" />
+        <el-form-item prop="dicType" label="字典类型">
+          <el-input v-model="searchData.dicType" placeholder="请输入字典类型" />
         </el-form-item>
-        <el-form-item prop="username" label="状态">
+        <el-form-item prop="status" label="状态">
           <el-select v-model="searchData.status" placeholder="请选择状态">
             <el-option
               v-for="item in options"

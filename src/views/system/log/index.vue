@@ -1,6 +1,6 @@
 <script setup>
 import { queryLog } from '@/api/system/log'
-import { Search, Refresh, Plus } from '@element-plus/icons-vue'
+import { Search, Refresh } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 
 const loading = ref(false)
@@ -18,10 +18,10 @@ const options = [
 ]
 
 const tableData = ref([])
-const searchFormRef = ref()
+const searchFormRef = ref(null)
 const searchData = reactive({
   username: '',
-  phone: ''
+  status: ''
 })
 const getTableData = () => {
   loading.value = true
@@ -66,7 +66,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="username" label="用户名称">
           <el-input v-model="searchData.username" placeholder="请输入用户名称" />
         </el-form-item>
-        <el-form-item prop="username" label="状态">
+        <el-form-item prop="status" label="状态">
           <el-select v-model="searchData.status" placeholder="请选择状态">
             <el-option
               v-for="item in options"

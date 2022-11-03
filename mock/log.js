@@ -34,7 +34,7 @@ export default [
               phonenumber: '15888888888'
             }
           ],
-          total: 12,
+          total: 2,
           size: '20',
           current: '1',
           orders: [],
