@@ -53,24 +53,22 @@ const resetForm = () => {
 
 <template>
   <!-- 新增/修改 -->
-  <el-dialog v-model="visible" :title="id ? '修改字典' : '新增字典'" @close="resetForm" width="60%">
+  <el-dialog v-model="visible" :title="id ? '修改字典值' : '新增字典值'" @close="resetForm" width="60%">
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
-      <el-form-item prop="dicName" label="字典名称">
-        <el-input v-model="formData.dicName" placeholder="请输入字典名称" />
+      <el-form-item prop="dicName" label="字典标签">
+        <el-input v-model="formData.dicName" placeholder="请输入字典标签" />
       </el-form-item>
-      <el-form-item prop="dicType" label="字典类型">
-        <el-input v-model="formData.dicType" placeholder="请输入字典类型" />
+      <el-form-item prop="dicType" label="字典值">
+        <el-input v-model="formData.dicType" placeholder="请输入字典值" />
+      </el-form-item>
+      <el-form-item prop="dicSort" label="字典顺序">
+        <el-input v-model="formData.dicSort" placeholder="请输入字典顺序" />
       </el-form-item>
       <el-form-item prop="dicStatus" label="状态">
-        <el-select v-model="formData.dicStatus" placeholder="请选择状态">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            :disabled="item.disabled"
-          />
-        </el-select>
+        <el-radio-group v-model="formData.dicStatus" class="ml-4">
+          <el-radio label="1">启用</el-radio>
+          <el-radio label="2">停用</el-radio>
+        </el-radio-group>
       </el-form-item>
     </el-form>
     <template #footer>

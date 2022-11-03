@@ -5,7 +5,6 @@ export const constantRoutes = [
   {
     path: '/redirect',
     component: Layout,
-    hidden: true,
     children: [
       {
         path: '/redirect/:path(.*)',
@@ -16,7 +15,6 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
-    hidden: true,
   },
   {
     path: "/",
@@ -81,6 +79,38 @@ export const constantRoutes = [
           svgIcon: ""
         }
       },
+      {
+        path: "dictionaryValue",
+        component: () => import("@/views/system/dictionary/dictionaryValue.vue"),
+        name: "DictionaryValue",
+        meta: {
+          title: "字典值管理",
+          svgIcon: "",
+          hidden: true,
+          activeMenu: '/system/dictionary'
+        }
+      },
+      {
+        path: "role",
+        component: () => import("@/views/system/role/index.vue"),
+        name: "Role",
+        meta: {
+          title: "角色管理",
+          svgIcon: ""
+        }
+      },
+      {
+        path: "roleLink",
+        component: () => import("@/views/system/role/roleLink.vue"),
+        name: "RoleLink",
+        meta: {
+          title: "角色链接",
+          svgIcon: "",
+          hidden: true,
+          activeMenu: '/system/role'
+        }
+      },
+
     ]
   },
   {

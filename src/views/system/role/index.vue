@@ -3,21 +3,10 @@ import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryDictio
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Plus } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
-import AddDictionary from './components/AddDictionary.vue'
+import AddRole from './components/AddRole.vue'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-
-const options = [
-  {
-    value: '1',
-    label: '正常'
-  },
-  {
-    value: '0',
-    label: '停用'
-  }
-]
 
 const pageData = reactive({
   isShowAddDialog: false,
@@ -116,22 +105,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <div shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="dicName" label="字典名称">
+        <el-form-item prop="dicName" label="角色名称">
           <el-input v-model="searchData.dicName" placeholder="请输入字典名称" />
-        </el-form-item>
-        <el-form-item prop="dicType" label="字典类型">
-          <el-input v-model="searchData.dicType" placeholder="请输入字典类型" />
-        </el-form-item>
-        <el-form-item prop="status" label="状态">
-          <el-select v-model="searchData.status" placeholder="请选择状态">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              :disabled="item.disabled"
-            />
-          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -142,18 +117,18 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <div v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" plain :icon="Plus" @click="pageData.isShowAddDialog = true">新增</el-button>
+          <el-button type="primary" plain :icon="Plus" @click="pageData.isShowAddDialog = true">新增角色</el-button>
         </div>
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData" max-height="64vh">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="dicName" label="字典名称" align="center" />
-          <el-table-column prop="dicType" label="字典类型" align="center">
+          <el-table-column prop="dicType" label="角色名称" align="center">
             <template #default="scope">
-              <router-link to="dictionaryValue" class="text-blue-600">{{scope.row.dicType}}</router-link>
+              <router-link to="roleLink" class="text-blue-600">{{scope.row.dicType}}</router-link>
             </template>
           </el-table-column>
+          <el-table-column prop="dicName" label="权限字符" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
               <el-tag v-if="!scope.row.status" type="success" effect="plain">启用</el-tag>
@@ -161,10 +136,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             </template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" align="center" />
-          <el-table-column fixed="right" label="操作" width="150" align="center">
+          <el-table-column fixed="right" label="操作" width="250" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">菜单权限</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -183,7 +159,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         />
       </div>
     </div>
-    <AddDictionary v-model:visible="pageData.isShowAddDialog" :id="pageData.editingId" @create="createUser" @update="updateUser" />
+    <AddRole v-model:visible="pageData.isShowAddDialog" :id="pageData.editingId" @create="createUser" @update="updateUser" />
   </div>
 </template>
 
