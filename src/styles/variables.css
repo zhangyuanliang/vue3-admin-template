@@ -6,6 +6,7 @@
   --el-color-primary-light-7: #839aed;
   --el-color-primary-light-8: #99b6f2;
   --el-color-primary-light-9: #ecf5ff;
+  --el-color-primary-dark-2: #839aed;
   --v3-body-bg-color: #f2f3f5;
   /** Header */
   --v3-header-height: calc(var(--v3-navigationbar-height) + var(--v3-tagsview-height));

@@ -83,12 +83,27 @@ export const constantRoutes = [
       },
     ]
   },
+  {
+    path: "/403",
+    component: () => import("@/views/error/403.vue"),
+    meta: {
+      hidden: true
+    }
+  },
+  {
+    path: "/404",
+    component: () => import("@/views/error/404.vue"),
+    meta: {
+      hidden: true
+    },
+    alias: "/:pathMatch(.*)*"
+  },
 ];
 
 export const asyncRoutes = []
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior: () => ({ top: 0 }),
   routes: constantRoutes,
 });
