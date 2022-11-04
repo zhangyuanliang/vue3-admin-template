@@ -1,16 +1,18 @@
 <script setup>
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryDictionary } from '@/api/system/dictionary.js'
+import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryRole } from '@/api/system/role.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Plus } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 import AddRole from './components/AddRole.vue'
+import MenuAuthority from './components/MenuAuthority.vue'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const pageData = reactive({
+  editingId: '',
   isShowAddDialog: false,
-  editingId: ''
+  isShowAuthorityDialog: false
 })
 
 const createUser = (record) => {
@@ -36,16 +38,11 @@ const updateUser = (record) => {
 }
 
 const handleDelete = (row) => {
-  ElMessageBox.confirm(
-    `正在删除用户：${row.realName}，确认删除？`,
-    'Warning',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-  .then(() => {
+  ElMessageBox.confirm(`正在删除用户：${row.realName}，确认删除？`, 'Warning', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
     deleteTableDataApi(row.id).then(() => {
       ElMessage.success('删除成功')
       getTableData()
@@ -63,11 +60,11 @@ const searchFormRef = ref()
 const searchData = reactive({
   dicName: '',
   dicType: '',
-  status: '',
+  status: ''
 })
 const getTableData = () => {
   loading.value = true
-  queryDictionary({
+  queryRole({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
@@ -97,6 +94,14 @@ const resetSearch = () => {
   }
   paginationData.currentPage = 1
 }
+const handleMenuAuthority = (row) => {
+  pageData.editingId = row.id
+  pageData.isShowAuthorityDialog = true
+}
+
+const updateAuthority = () => {
+  pageData.isShowAuthorityDialog = false
+}
 
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
@@ -123,12 +128,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="table-wrapper">
         <el-table :data="tableData" max-height="64vh">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="dicType" label="角色名称" align="center">
+          <el-table-column prop="roleName" label="角色名称" align="center">
             <template #default="scope">
-              <router-link to="roleLink" class="text-blue-600">{{scope.row.dicType}}</router-link>
+              <router-link to="roleLink" class="text-blue-600">{{ scope.row.roleName }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column prop="dicName" label="权限字符" align="center" />
+          <el-table-column prop="roleType" label="权限字符" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
               <el-tag v-if="!scope.row.status" type="success" effect="plain">启用</el-tag>
@@ -140,7 +145,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">菜单权限</el-button>
+              <el-button type="primary" text bg size="small" @click="handleMenuAuthority(scope.row)">
+                菜单权限
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -159,7 +166,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         />
       </div>
     </div>
-    <AddRole v-model:visible="pageData.isShowAddDialog" :id="pageData.editingId" @create="createUser" @update="updateUser" />
+    <AddRole
+      v-model:visible="pageData.isShowAddDialog"
+      :id="pageData.editingId"
+      @create="createUser"
+      @update="updateUser"
+    />
+    <MenuAuthority v-model:visible="pageData.isShowAuthorityDialog" :id="pageData.editingId" @sure="updateAuthority" />
   </div>
 </template>
 
@@ -169,8 +182,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     padding-bottom: 2px;
   }
 }
-
 .table-wrapper {
   margin-bottom: 20px;
+}
+.toolbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  :deep(.el-button) {
+    padding: 6px 12px;
+  }
 }
 </style>

@@ -1,29 +1,10 @@
 <script setup>
-import { createTableDataApi, deleteTableDataApi, updateTableDataApi, queryDictionaryValue } from '@/api/system/dictionary.js'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search, Refresh, Plus } from '@element-plus/icons-vue'
+import { queryRoleLink } from '@/api/system/role.js'
+import { Search, Refresh } from '@element-plus/icons-vue'
 import { usePagination } from '@/hooks/usePagination'
 
 const loading = ref(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-
-const handleDelete = (row) => {
-  ElMessageBox.confirm(
-    `正在删除用户：${row.realName}，确认删除？`,
-    'Warning',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-  .then(() => {
-    deleteTableDataApi(row.id).then(() => {
-      ElMessage.success('删除成功')
-      getTableData()
-    })
-  })
-}
 
 const tableData = ref([])
 const searchFormRef = ref()
@@ -34,7 +15,7 @@ const searchData = reactive({
 })
 const getTableData = () => {
   loading.value = true
-  queryDictionaryValue({
+  queryRoleLink({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
@@ -91,10 +72,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="table-wrapper">
         <el-table :data="tableData" max-height="64vh">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="dicName" label="用户账号" align="center" />
-          <el-table-column prop="dicValue" label="真实姓名" align="center" />
-          <el-table-column prop="sort" label="所属组织" align="center" />
-          <el-table-column prop="status" label="状态" align="center" />
+          <el-table-column prop="roleName" label="用户账号" align="center" />
+          <el-table-column prop="realName" label="真实姓名" align="center" />
+          <el-table-column prop="organization" label="所属组织" align="center" />
+          <el-table-column prop="status" label="状态" align="center">
+            <template #default="scope">
+              <el-tag v-if="scope.row.status" type="success" effect="plain">启用</el-tag>
+              <el-tag v-else type="danger" effect="plain">禁用</el-tag>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <div class="flex justify-end">
