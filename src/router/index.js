@@ -119,6 +119,15 @@ export const constantRoutes = [
           svgIcon: "",
         }
       },
+      {
+        path: "parameter",
+        component: () => import("@/views/system/parameter/index.vue"),
+        name: "Parameter",
+        meta: {
+          title: "参数设置",
+          svgIcon: "",
+        }
+      },
 
     ]
   },

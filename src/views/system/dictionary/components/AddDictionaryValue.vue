@@ -54,21 +54,23 @@ const resetForm = () => {
 <template>
   <el-dialog v-model="visible" :title="id ? '修改字典值' : '新增字典值'" @close="resetForm" width="60%">
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
-      <el-form-item prop="dicName" label="字典标签">
-        <el-input v-model="formData.dicName" placeholder="请输入字典标签" />
-      </el-form-item>
-      <el-form-item prop="dicType" label="字典值">
-        <el-input v-model="formData.dicType" placeholder="请输入字典值" />
-      </el-form-item>
-      <el-form-item prop="dicSort" label="字典顺序">
-        <el-input v-model="formData.dicSort" placeholder="请输入字典顺序" />
-      </el-form-item>
-      <el-form-item prop="dicStatus" label="状态">
-        <el-radio-group v-model="formData.dicStatus" class="ml-4">
-          <el-radio label="1">启用</el-radio>
-          <el-radio label="2">停用</el-radio>
-        </el-radio-group>
-      </el-form-item>
+      <div class="px-4">
+        <el-form-item prop="dicName" label="字典标签">
+          <el-input v-model="formData.dicName" placeholder="请输入字典标签" />
+        </el-form-item>
+        <el-form-item prop="dicType" label="字典值">
+          <el-input v-model="formData.dicType" placeholder="请输入字典值" />
+        </el-form-item>
+        <el-form-item prop="dicSort" label="字典顺序">
+          <el-input v-model="formData.dicSort" placeholder="请输入字典顺序" />
+        </el-form-item>
+        <el-form-item prop="dicStatus" label="状态">
+          <el-radio-group v-model="formData.dicStatus" class="ml-4">
+            <el-radio label="1">启用</el-radio>
+            <el-radio label="2">停用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </div>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
