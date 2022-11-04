@@ -225,7 +225,7 @@ onMounted(() => {
         }
       }
       .el-icon {
-        margin: 0 2px;
+        margin: 0 2px 2px;
         vertical-align: middle;
         border-radius: 50%;
         &:hover {

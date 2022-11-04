@@ -29,7 +29,7 @@ const filterNode = (value, data) => {
   return data.label.includes(value)
 }
 
-const data = [
+const treeData = [
   {
     id: 1,
     label: '系统管理',
@@ -111,7 +111,7 @@ const handleCheckChange = (
         <el-tree
           ref="treeRef"
           class="filter-tree mt-2"
-          :data="data"
+          :data="treeData"
           node-key="id"
           :props="defaultProps"
           default-expand-all
