@@ -1,4 +1,3 @@
-import { defineStore } from "pinia"
 import { getSidebarStatus, setSidebarStatus } from "@/utils/localStorage"
 
 export const useAppStore = defineStore("app", () => {

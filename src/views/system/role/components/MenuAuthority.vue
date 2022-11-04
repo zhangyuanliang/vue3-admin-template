@@ -104,7 +104,6 @@ const handleCheckChange = (
 </script>
 
 <template>
-  <!-- 新增/修改 -->
   <el-dialog v-model="visible" title="菜单权限" @close="resetForm" width="60%">
     <el-form label-width="80px">
       <el-form-item label="菜单权限" required>

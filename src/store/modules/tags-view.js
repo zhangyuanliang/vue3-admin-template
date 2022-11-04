@@ -1,5 +1,3 @@
-import { defineStore } from "pinia"
-
 export const useTagsViewStore = defineStore("tags-view", () => {
   const visitedViews = ref([])
 

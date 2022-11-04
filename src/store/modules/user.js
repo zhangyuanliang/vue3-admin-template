@@ -1,5 +1,4 @@
 import store from "@/store"
-import { defineStore } from "pinia"
 import { usePermissionStore } from "./permission"
 import { getToken, removeToken, setToken } from "@/utils/auth"
 import router, { resetRouter } from "@/router"
@@ -9,11 +8,10 @@ export const useUserStore = defineStore("user", () => {
   const token = ref(getToken() || "")
   const roles = ref([])
 
-  /** 设置角色数组 */
   const setRoles = (value) => {
     roles.value = value
   }
-  /** 登录 */
+
   const loginRequest = (loginData) => {
     return new Promise((resolve, reject) => {
       login({
@@ -31,7 +29,7 @@ export const useUserStore = defineStore("user", () => {
         })
     })
   }
-  /** 获取用户详情 */
+
   const queryUserInfo = () => {
     return new Promise((resolve, reject) => {
       getInfo()
@@ -44,7 +42,7 @@ export const useUserStore = defineStore("user", () => {
         })
     })
   }
-  /** 切换角色 */
+
   const changeRoles = async (role) => {
     const newToken = "token-" + role
     token.value = newToken
@@ -57,14 +55,14 @@ export const useUserStore = defineStore("user", () => {
       router.addRoute(item)
     })
   }
-  /** 登出 */
+
   const logout = () => {
     removeToken()
     token.value = ""
     roles.value = []
     resetRouter()
   }
-  /** 重置 Token */
+
   const resetToken = () => {
     removeToken()
     token.value = ""
@@ -74,7 +72,6 @@ export const useUserStore = defineStore("user", () => {
   return { token, roles, setRoles, loginRequest, queryUserInfo, changeRoles, logout, resetToken }
 })
 
-/** 在 setup 外使用 */
 export function useUserStoreHook() {
   return useUserStore(store)
 }

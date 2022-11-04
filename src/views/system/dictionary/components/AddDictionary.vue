@@ -52,26 +52,27 @@ const resetForm = () => {
 </script>
 
 <template>
-  <!-- 新增/修改 -->
   <el-dialog v-model="visible" :title="id ? '修改字典' : '新增字典'" @close="resetForm" width="60%">
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
-      <el-form-item prop="dicName" label="字典名称">
-        <el-input v-model="formData.dicName" placeholder="请输入字典名称" />
-      </el-form-item>
-      <el-form-item prop="dicType" label="字典类型">
-        <el-input v-model="formData.dicType" placeholder="请输入字典类型" />
-      </el-form-item>
-      <el-form-item prop="dicStatus" label="状态">
-        <el-select v-model="formData.dicStatus" placeholder="请选择状态">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            :disabled="item.disabled"
-          />
-        </el-select>
-      </el-form-item>
+      <div class="px-4">
+        <el-form-item prop="dicName" label="字典名称">
+          <el-input v-model="formData.dicName" placeholder="请输入字典名称" />
+        </el-form-item>
+        <el-form-item prop="dicType" label="字典类型">
+          <el-input v-model="formData.dicType" placeholder="请输入字典类型" />
+        </el-form-item>
+        <el-form-item prop="dicStatus" label="状态">
+          <el-select v-model="formData.dicStatus" placeholder="请选择状态">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              :disabled="item.disabled"
+            />
+          </el-select>
+        </el-form-item>
+      </div>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>

@@ -43,7 +43,6 @@ const resetForm = () => {
 </script>
 
 <template>
-  <!-- 新增/修改 -->
   <el-dialog v-model="visible" :title="id ? '修改用户' : '新增用户'" @close="resetForm" width="60%">
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
       <div class="flex flex-wrap">

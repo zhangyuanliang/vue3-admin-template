@@ -50,7 +50,6 @@ const resetForm = () => {
 </script>
 
 <template>
-  <!-- 新增/修改 -->
   <el-dialog v-model="visible" :title="id ? '修改组织' : '新增组织'" @close="resetForm" width="60%">
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
       <div class="flex flex-wrap">

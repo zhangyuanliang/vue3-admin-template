@@ -110,6 +110,15 @@ export const constantRoutes = [
           activeMenu: '/system/role'
         }
       },
+      {
+        path: "menu",
+        component: () => import("@/views/system/menu/index.vue"),
+        name: "Menu",
+        meta: {
+          title: "菜单设置",
+          svgIcon: "",
+        }
+      },
 
     ]
   },

@@ -1,5 +1,4 @@
 import store from "@/store"
-import { defineStore } from "pinia"
 import { constantRoutes, asyncRoutes } from "@/router"
 
 const hasPermission = (roles, route) => {

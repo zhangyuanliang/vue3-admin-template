@@ -1,4 +1,3 @@
-import { defineStore } from "pinia"
 import layoutSettings from "@/config/layout"
 
 export const useSettingsStore = defineStore("settings", () => {
