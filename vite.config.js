@@ -41,7 +41,7 @@ export default defineConfig(({ command, mode }) => {
         dts: true
       }),
       Components({
-        resolvers: [ElementPlusResolver()]
+        // resolvers: [ElementPlusResolver()] // 会引起重载
       }),
       svgLoader(),
       createSvgIconsPlugin({
