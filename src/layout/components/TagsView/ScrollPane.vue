@@ -10,12 +10,22 @@ let currentScrollLeft = 0
 /** 每次滚动距离 */
 const translateDistance = 200
 
-/** 滚动时触发 */
+// TagsView满，新增标签滚动到最右侧
+const srollToLast = () => {
+  nextTick(() => {
+    const scrollbarContentRefWidth = scrollbarContentRef.value.clientWidth
+    const scrollbarRefWidth = scrollbarRef.value.wrap$.clientWidth
+    const lastDistance = scrollbarContentRefWidth - scrollbarRefWidth - currentScrollLeft
+    if (scrollbarRefWidth > scrollbarContentRefWidth) return
+    const scrollLeft = currentScrollLeft + lastDistance
+    scrollbarRef.value.setScrollLeft(scrollLeft)
+  })
+}
+
 const scroll = ({ scrollLeft }) => {
   currentScrollLeft = scrollLeft
 }
 
-/** 点击滚动 */
 const scrollTo = (direction) => {
   let scrollLeft = 0
   /** 可滚动内容的长度 */
@@ -33,6 +43,9 @@ const scrollTo = (direction) => {
   }
   scrollbarRef.value.setScrollLeft(scrollLeft)
 }
+defineExpose({
+  srollToLast
+})
 </script>
 
 <template>

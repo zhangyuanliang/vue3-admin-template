@@ -15,6 +15,7 @@ const visible = ref(false)
 const top = ref(0)
 const left = ref(0)
 const selectedTag = ref({})
+const scrollpaneRef = ref()
 let affixTags = []
 
 const isActive = (tag) => {
@@ -60,6 +61,7 @@ const initTags = () => {
 const addTags = () => {
   if (route.name) {
     tagsViewStore.addVisitedView(route)
+    scrollpaneRef.value?.srollToLast()
   }
 }
 
@@ -154,7 +156,7 @@ onMounted(() => {
 
 <template>
   <div class="tags-view-container">
-    <ScrollPane class="tags-view-wrapper">
+    <ScrollPane ref="scrollpaneRef" class="tags-view-wrapper">
       <router-link
         v-for="tag in tagsViewStore.visitedViews"
         :key="tag.path"
