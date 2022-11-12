@@ -82,7 +82,7 @@ export default [
           deptId: null,
           userName: 'admin',
           nickName: '系统管理员',
-          email: '975321416@163.com',
+          email: '171221416@163.com',
           phonenumber: '15888888888',
           sex: '1',
           avatar: '',

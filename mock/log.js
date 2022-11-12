@@ -11,14 +11,14 @@ export default [
           records: [
             {
               id: '1460054797452324864',
-              realName: '李龙',
+              realName: '李**',
               system: 'windows',
               browser: 'Chrome',
               browserVersion: '106.0.5249.119（正式版本）',
               createTime: '2018-03-16 11:33:00',
               operation: '修改用户',
               ip: '192.168.13.268',
-              email: '975321416@163.com',
+              email: '171221416@163.com',
               phonenumber: '15888888888'
             },
             {
@@ -30,7 +30,7 @@ export default [
               createTime: '2018-03-16 11:33:00',
               operation: '修改用户',
               ip: '192.168.15.116',
-              email: '975321416@163.com',
+              email: '171221416@163.com',
               phonenumber: '15888888888'
             }
           ],
