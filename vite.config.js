@@ -8,6 +8,7 @@ import { resolve } from 'path'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
 import svgLoader from 'vite-svg-loader'
+import legacy from '@vitejs/plugin-legacy'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -59,7 +60,10 @@ export default defineConfig(({ command, mode }) => {
           setupProdMockServer();
         `,
         logger: true
-      })
+      }),
+      legacy({
+        targets: ['chrome >= 49', 'safari >= 10', 'ios >= 10']
+      }),
     ],
     build: {
       target: 'es2015',
